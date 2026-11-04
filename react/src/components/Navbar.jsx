@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Utensils } from 'lucide-react';
+import { LogOut, Utensils, Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -13,24 +13,37 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-neutral-900/90 backdrop-blur-md border-b border-neutral-800 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo and Title */}
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-red-500/20 group-hover:scale-105 transition-transform">
-            <Utensils className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <span className="food-court-title text-2xl font-bold tracking-wide">
-              Food Court
-            </span>
-            <span className="block text-[10px] tracking-widest uppercase text-red-400 font-semibold -mt-1">
-              Delivery Management
-            </span>
-          </div>
-        </Link>
+    <header className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-md border-b border-neutral-800 text-white w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Left Side: Sidebar Toggle & Brand Logo */}
+        <div className="flex items-center gap-3">
+          {onToggleSidebar && (
+            <button
+              onClick={onToggleSidebar}
+              className="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 focus:outline-none transition cursor-pointer"
+              title="Toggle Sidebar"
+              aria-label="Toggle navigation sidebar"
+            >
+              {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          )}
 
-        {/* User Pill and Logout Button */}
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-red-500/20 group-hover:scale-105 transition-transform">
+              <Utensils className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <span className="food-court-title text-2xl font-bold tracking-wide">
+                Food Court
+              </span>
+              <span className="block text-[10px] tracking-widest uppercase text-red-400 font-semibold -mt-1">
+                Delivery Management
+              </span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Right Side: Admin / User Pill and Logout Button */}
         {user && (
           <div className="flex items-center gap-3 sm:gap-4">
             {/* Admin / User Pill */}
