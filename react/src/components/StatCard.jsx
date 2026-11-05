@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
 const StatCard = ({
@@ -10,6 +11,7 @@ const StatCard = ({
   icon: Icon,
   accentColor = 'red',
   badgeText,
+  linkTo,
 }) => {
   const colorMap = {
     red: {
@@ -52,9 +54,9 @@ const StatCard = ({
 
   const scheme = colorMap[accentColor] || colorMap.red;
 
-  return (
+  const content = (
     <div
-      className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.bg} bg-neutral-900/90 border ${scheme.border} p-5 transition-all duration-300 hover:shadow-xl ${scheme.shadow} group`}
+      className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.bg} bg-neutral-900/90 border ${scheme.border} p-5 transition-all duration-300 hover:shadow-xl ${scheme.shadow} group h-full`}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0 pr-1">
@@ -101,6 +103,16 @@ const StatCard = ({
       </div>
     </div>
   );
+
+  if (linkTo) {
+    return (
+      <Link to={linkTo} className="block cursor-pointer focus:outline-none">
+        {content}
+      </Link>
+    );
+  }
+
+  return content;
 };
 
 export default StatCard;

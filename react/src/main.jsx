@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext'
 import { DashboardProvider } from './context/DashboardContext'
+import { RestaurantProvider } from './context/RestaurantContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <DashboardProvider>
-        <App />
+        <RestaurantProvider>
+          <App />
+        </RestaurantProvider>
       </DashboardProvider>
     </AuthProvider>
   </StrictMode>,

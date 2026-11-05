@@ -2,50 +2,55 @@
 
 A modern, responsive Food Delivery Management System built with React, Vite, Tailwind CSS, Context API, and Third-Party API integrations.
 
-## 🍔 Features Implemented (Module 1: Authentication)
+## 🛠️ Technology Stack & Project Guidelines
+- **Framework**: React.js (Vite)
+- **Styling**: Tailwind CSS (Consistent dark culinary theme with red and amber accents, edge-to-edge stretched layout)
+- **Global State**: Context API (Separate context files for modularity: `AuthContext`, `DashboardContext`, `RestaurantContext`)
+- **Routing**: React Router (Public auth routes, protected dashboard, restaurant listing, and restaurant details)
+- **API Requests**: Axios with interceptors and loading/error handling
+- **Third-Party API**: Integrated with DummyJSON API
+- **Form Handling**: React Hook Form
+- **Notifications**: React Toastify (Dark theme)
+- **Session & Storage**: Local Storage (`fdms_*` keys for session, metrics, orders, and favorite restaurants)
 
-1. **Design & Theming**:
-   - Matches the uploaded **Food Court Login Form** design.
-   - Distinctive typography (`Courgette` cursive brand title, red highlight on `Login`, `Register`, and `Reset`).
-   - Frosted dark glass container with subtle borders and shadows over a rich food dining table backdrop.
-   - Decorative red accent lines framing `"fill out the form below to login"`.
-   - Matching styled footer with copyright notice.
+---
 
-2. **Authentication Features**:
-   - **Login**: Username/Email and password input with Remember Me checkbox and validation.
-   - **Register**: Full account creation (Name, Username, Email, Password, Confirm Password, Terms Agreement).
-   - **Forgot Password UI**: Password recovery with validation and instant feedback.
-   - **Form Validation**: Handled by **React Hook Form** with real-time feedback and clear error states.
-   - **Password Show/Hide**: Interactive toggle button with Eye/EyeOff icons on all password fields.
-   - **Remember Me**: Persists username to `localStorage` for returning visits.
-   - **Protected Routes**: Custom `<ProtectedRoute>` wrapper redirecting unauthenticated users to `/login`.
-   - **Session Storage**: Active user session saved in `localStorage` (`fdms_user_session`) with mock JWT token.
-   - **Logout**: Clears active session and triggers feedback.
-   - **Notifications**: Full integration with **React Toastify** (dark themed).
+## 📦 Implemented Modules
 
-3. **Live Food API Integration**:
-   - Integrated with **DummyJSON Recipes API** using **Axios**.
-   - Includes real-time search, cuisine category filters, price estimation, ratings, and preparation time.
-   - Proper loading spinners and graceful error handling.
+### Module 1: Authentication
+- Login, Register, Forgot Password UI with form validation.
+- Password show/hide toggle.
+- Protected Routes (`<ProtectedRoute />`).
+- Session persistence in Local Storage with test credentials pre-configured (`Admin: pravin`, `Password123!`).
 
-## 🚀 Quick Start
+### Module 2: Dashboard
+- Edge-to-edge stretched responsive layout with collapsible sidebar.
+- 6 Key Performance Metric cards: Total Restaurants, Total Food Items, Total Orders, Active Orders, Delivered Orders, Total Customers.
+- Revenue Summary with interactive Weekly & Monthly breakdown bar graphs, gross revenue, today's revenue, and AOV.
+- Recent Orders Feed with search, interactive clear "X" icon, status filter tabs, and inline status updater.
+- Quick action cards with modals for adding restaurants and food items.
 
-From the `react` directory:
+### Module 3: Restaurant Listing & Details
+- **Display Restaurant List** (`/restaurants`):
+  - Responsive cards with Restaurant Image, Name, Cuisine Type, Rating & Reviews, Delivery Time, Delivery Charges (Free Delivery highlighted), Address, and Open/Closed Status badge.
+  - Interactive favorite bookmarking saved to Local Storage.
+- **Restaurant Details** (`/restaurants/:id`):
+  - Full cover hero banner with address, opening hours, phone, and rating.
+  - Live chef menu items fetched via Axios from the Third-Party API with dish images, calories, prep time, price, and "Add to Order" action.
+- **Restaurant Search**: Real-time search by name, cuisine, address, or dishes with interactive clear "X" button.
+- **Filter by Cuisine**: All, Italian, Indian, Asian, American, Mexican, Mediterranean, Desserts.
+- **Filter by Rating**: All Ratings, 4.5+ ⭐ (Top Rated), 4.0+ ⭐, 3.5+ ⭐.
+- **Sort Options**: Popularity (most reviewed), Highest Rated, Fastest Delivery Time, Lowest Delivery Charges.
+- **Pagination**: Interactive previous, numbered page buttons, and next controls.
+- **Loading & Error Handling**: Animated skeleton loaders during API fetch, and error alert with retry button.
+
+---
+
+## 🚀 How to Run
 
 ```bash
-# Run development server
+cd react
 npm run dev
 ```
 
-Visit the local server in your browser (usually `http://localhost:5173`).
-
-## 🔑 Pre-Configured Test Credentials
-
-You can use the one-click autofill buttons on the login card, or enter manually:
-
-| Role | Username | Password | Email |
-| :--- | :--- | :--- | :--- |
-| **Admin** | `pravin` | `Password123!` | `pravin@foodcourt.com` |
-| **Customer** | `alex` | `Password123!` | `alex@foodcourt.com` |
-
-You can also use the **Register** form to create any new custom user account with instant login!
+Visit `http://localhost:5173` in your browser.

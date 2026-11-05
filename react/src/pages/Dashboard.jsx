@@ -8,6 +8,7 @@ import QuickActionCards from '../components/QuickActionCards';
 import AddRestaurantModal from '../components/AddRestaurantModal';
 import AddFoodItemModal from '../components/AddFoodItemModal';
 import { useDashboard } from '../context/DashboardContext';
+import { useRestaurants } from '../context/RestaurantContext';
 import {
   Store,
   UtensilsCrossed,
@@ -29,6 +30,12 @@ const Dashboard = () => {
     updateOrderStatus,
     addNewOrder,
   } = useDashboard();
+  const { addRestaurant: addRestaurantToCatalog } = useRestaurants();
+
+  const handleAddRestaurant = (restaurantData) => {
+    addRestaurant(restaurantData);
+    addRestaurantToCatalog(restaurantData);
+  };
 
   // Sidebar responsive state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -136,6 +143,7 @@ const Dashboard = () => {
                 subtext="Active food outlets"
                 icon={Store}
                 accentColor="red"
+                linkTo="/restaurants"
               />
 
               {/* Metric 2: Total Food Items */}
@@ -223,7 +231,7 @@ const Dashboard = () => {
       <AddRestaurantModal
         isOpen={isRestaurantModalOpen}
         onClose={() => setIsRestaurantModalOpen(false)}
-        onAdd={addRestaurant}
+        onAdd={handleAddRestaurant}
       />
 
       <AddFoodItemModal

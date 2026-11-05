@@ -1,8 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
+  Store,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -12,11 +13,12 @@ const Sidebar = ({
   isOpen,
   isCollapsed,
   onToggleCollapse,
-  activeTab = 'dashboard',
+  activeTab,
   onSelectTab,
 }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -28,8 +30,22 @@ const Sidebar = ({
       id: 'dashboard',
       label: 'Dashboard',
       icon: LayoutDashboard,
+      path: '/',
+    },
+    {
+      id: 'restaurants',
+      label: 'Restaurants',
+      icon: Store,
+      path: '/restaurants',
     },
   ];
+
+  const handleNavClick = (item) => {
+    if (onSelectTab) {
+      onSelectTab(item.id);
+    }
+    navigate(item.path);
+  };
 
   return (
     <>
@@ -73,18 +89,21 @@ const Sidebar = ({
           </button>
         </div>
 
-        {/* Navigation Links - Only Dashboard */}
+        {/* Navigation Links */}
         <nav className="flex-1 py-4 px-3 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id;
+            const isCurrentActive =
+              activeTab === item.id ||
+              (item.path === '/' && location.pathname === '/') ||
+              (item.path === '/restaurants' && location.pathname.startsWith('/restaurants'));
 
             return (
               <button
                 key={item.id}
-                onClick={() => onSelectTab && onSelectTab(item.id)}
+                onClick={() => handleNavClick(item)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 group cursor-pointer ${
-                  isActive
+                  isCurrentActive
                     ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-600/30 font-semibold'
                     : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/80'
                 }`}
@@ -92,7 +111,7 @@ const Sidebar = ({
               >
                 <Icon
                   className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
-                    isActive ? 'text-white' : 'text-neutral-400 group-hover:text-red-400'
+                    isCurrentActive ? 'text-white' : 'text-neutral-400 group-hover:text-red-400'
                   }`}
                 />
 

@@ -8,6 +8,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import RestaurantList from './pages/RestaurantList';
+import RestaurantDetails from './pages/RestaurantDetails';
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/* Protected Routes */}
+        {/* Protected Dashboard Route */}
         <Route
           path="/"
           element={
@@ -28,7 +30,25 @@ function App() {
           }
         />
 
-        {/* Catch-all redirect to Home / Login */}
+        {/* Module 3: Restaurant Listing & Details Protected Routes */}
+        <Route
+          path="/restaurants"
+          element={
+            <ProtectedRoute>
+              <RestaurantList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/restaurants/:id"
+          element={
+            <ProtectedRoute>
+              <RestaurantDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-all redirect to Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
