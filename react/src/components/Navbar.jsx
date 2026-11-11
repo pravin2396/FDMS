@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Utensils, Menu, X } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { LogOut, Utensils, Menu, X, ShoppingBag } from 'lucide-react';
 
 const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
   const { user, logout } = useAuth();
+  const { totalItemsCount, subtotal } = useCart();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -43,35 +45,61 @@ const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
           </Link>
         </div>
 
-        {/* Right Side: Admin / User Pill and Logout Button */}
-        {user && (
-          <div className="flex items-center gap-3 sm:gap-4">
-            {/* Admin / User Pill */}
-            <div className="flex items-center gap-2.5 bg-neutral-800/90 px-3 py-1.5 rounded-full border border-neutral-700 shadow-sm">
-              <img
-                src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
-                alt={user.name}
-                className="w-7 h-7 rounded-full object-cover border border-red-500"
-              />
-              <div className="text-left text-xs leading-none">
-                <span className="font-semibold text-white block leading-tight">{user.name}</span>
-                <span className="text-neutral-400 text-[10px]">
-                  @{user.username} • <span className="text-amber-400 font-semibold">{user.role}</span>
+        {/* Right Side: Cart Badge, Admin / User Pill and Logout Button */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* Cart Live Action Link */}
+          <Link
+            to="/cart"
+            className="relative flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white border border-neutral-700 transition cursor-pointer group shadow-sm"
+            title="View Shopping Cart"
+          >
+            <div className="relative">
+              <ShoppingBag className="w-4 h-4 text-neutral-300 group-hover:text-red-400 transition-colors" />
+              {totalItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red-600 text-white text-[9px] font-black flex items-center justify-center animate-pulse shadow-md shadow-red-600/50">
+                  {totalItemsCount}
                 </span>
-              </div>
+              )}
             </div>
+            <span className="text-xs font-semibold hidden md:inline">
+              Cart
+            </span>
+            {totalItemsCount > 0 && (
+              <span className="text-[11px] font-bold text-amber-400 hidden lg:inline">
+                ₹{subtotal}
+              </span>
+            )}
+          </Link>
 
-            {/* Logout Button */}
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-red-600 rounded-lg border border-neutral-700 hover:border-red-500 transition-all duration-200 cursor-pointer shadow-sm"
-              title="Logout"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
-          </div>
-        )}
+          {user && (
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Admin / User Pill */}
+              <div className="flex items-center gap-2.5 bg-neutral-800/90 px-3 py-1.5 rounded-full border border-neutral-700 shadow-sm">
+                <img
+                  src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
+                  alt={user.name}
+                  className="w-7 h-7 rounded-full object-cover border border-red-500"
+                />
+                <div className="text-left text-xs leading-none">
+                  <span className="font-semibold text-white block leading-tight">{user.name}</span>
+                  <span className="text-neutral-400 text-[10px]">
+                    @{user.username} • <span className="text-amber-400 font-semibold">{user.role}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white bg-neutral-800 hover:bg-red-600 rounded-lg border border-neutral-700 hover:border-red-500 transition-all duration-200 cursor-pointer shadow-sm"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

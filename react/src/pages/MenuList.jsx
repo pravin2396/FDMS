@@ -8,6 +8,7 @@ import DeleteConfirmModal from '../components/DeleteConfirmModal';
 import { useMenu } from '../context/MenuContext';
 import { useDashboard } from '../context/DashboardContext';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import {
   UtensilsCrossed,
   RefreshCw,
@@ -40,6 +41,7 @@ const MenuList = () => {
 
   const { addNewOrder } = useDashboard();
   const { user } = useAuth();
+  const { addToCart } = useCart();
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -79,8 +81,9 @@ const MenuList = () => {
     }
   };
 
-  // Add to Order action that replicates in Dashboard orders
+  // Add to Cart action that also replicates in Dashboard orders
   const handleAddToCart = (item) => {
+    addToCart(item, 1, 'Food Court Central Kitchen');
     addNewOrder({
       customerName: user?.name || 'Pravin',
       avatar:

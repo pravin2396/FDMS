@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext'
 import { DashboardProvider } from './context/DashboardContext'
 import { RestaurantProvider } from './context/RestaurantContext'
 import { MenuProvider } from './context/MenuContext'
+import { CartProvider } from './context/CartContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')).render(
         <DashboardProvider>
           <RestaurantProvider>
             <MenuProvider>
-              <App />
+              <CartProvider>
+                <App />
+              </CartProvider>
             </MenuProvider>
           </RestaurantProvider>
         </DashboardProvider>

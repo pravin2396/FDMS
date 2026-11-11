@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import {
   LayoutDashboard,
   Store,
   UtensilsCrossed,
+  ShoppingBag,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -18,6 +20,7 @@ const Sidebar = ({
   onSelectTab,
 }) => {
   const { user, logout } = useAuth();
+  const { totalItemsCount } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -44,6 +47,13 @@ const Sidebar = ({
       label: 'Food Menu',
       icon: UtensilsCrossed,
       path: '/menu',
+    },
+    {
+      id: 'cart',
+      label: 'Shopping Cart',
+      icon: ShoppingBag,
+      path: '/cart',
+      badge: totalItemsCount > 0 ? totalItemsCount : null,
     },
   ];
 
@@ -104,28 +114,41 @@ const Sidebar = ({
               activeTab === item.id ||
               (item.path === '/' && location.pathname === '/') ||
               (item.path === '/restaurants' && location.pathname.startsWith('/restaurants')) ||
-              (item.path === '/menu' && location.pathname.startsWith('/menu'));
+              (item.path === '/menu' && location.pathname.startsWith('/menu')) ||
+              (item.path === '/cart' && location.pathname === '/cart');
 
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 group cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 group cursor-pointer relative ${
                   isCurrentActive
                     ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-600/30 font-semibold'
                     : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800/80'
                 }`}
                 title={isCollapsed ? item.label : undefined}
               >
-                <Icon
-                  className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
-                    isCurrentActive ? 'text-white' : 'text-neutral-400 group-hover:text-red-400'
-                  }`}
-                />
+                <div className="relative">
+                  <Icon
+                    className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${
+                      isCurrentActive ? 'text-white' : 'text-neutral-400 group-hover:text-red-400'
+                    }`}
+                  />
+                  {isCollapsed && item.badge && (
+                    <span className="absolute -top-1.5 -right-2 w-3.5 h-3.5 rounded-full bg-red-600 text-white text-[8px] font-bold flex items-center justify-center">
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
 
                 {!isCollapsed && (
                   <div className="flex-1 flex items-center justify-between text-left">
                     <span className="truncate">{item.label}</span>
+                    {item.badge && (
+                      <span className="px-1.5 py-0.5 rounded-full text-[10px] font-black bg-red-600 text-white shadow-sm">
+                        {item.badge}
+                      </span>
+                    )}
                   </div>
                 )}
               </button>

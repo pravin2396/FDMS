@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import {
   Star,
   Clock,
@@ -19,6 +20,9 @@ const MenuItemCard = ({
   onDelete,
   onToggleAvailability,
 }) => {
+  const { cartItems } = useCart();
+  const cartEntry = cartItems?.find((ci) => String(ci.id) === String(item.id));
+  const cartQty = cartEntry?.quantity || 0;
   return (
     <div className="group rounded-2xl bg-neutral-900/90 border border-neutral-800 hover:border-red-500/50 overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-red-950/20">
       <div>
@@ -169,10 +173,23 @@ const MenuItemCard = ({
               type="button"
               onClick={() => onAddToCart(item)}
               disabled={!item.isAvailable}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-white shadow-md shadow-red-600/30 transition cursor-pointer"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold shadow-md transition cursor-pointer ${
+                !item.isAvailable
+                  ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
+                  : cartQty > 0
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/30'
+                  : 'bg-red-600 hover:bg-red-500 text-white shadow-red-600/30'
+              }`}
+              title={cartQty > 0 ? `${cartQty} already in cart. Click to add more` : 'Add to cart'}
             >
               <ShoppingBag className="w-3.5 h-3.5" />
-              <span>{item.isAvailable ? 'Order' : 'Out'}</span>
+              <span>
+                {!item.isAvailable
+                  ? 'Out'
+                  : cartQty > 0
+                  ? `In Cart (${cartQty})`
+                  : 'Add to Cart'}
+              </span>
             </button>
           </div>
         </div>

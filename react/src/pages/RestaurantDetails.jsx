@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import { restaurantService } from '../services/api';
 import { useDashboard } from '../context/DashboardContext';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import {
   ArrowLeft,
   Star,
@@ -25,6 +26,7 @@ const RestaurantDetails = () => {
   const { id } = useParams();
   const { addNewOrder } = useDashboard();
   const { user } = useAuth();
+  const { addToCart } = useCart();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,6 +54,20 @@ const RestaurantDetails = () => {
 
   const handleAddToCart = (dish) => {
     const dishPrice = parseInt(((dish.prepTimeMinutes || 20) * 12 + 199).toFixed(0), 10);
+    addToCart(
+      {
+        id: `rest-${restaurant?.id || id}-${dish.id}`,
+        name: dish.name,
+        price: dishPrice,
+        image: dish.image,
+        category: dish.cuisine || restaurant?.cuisine || 'Specialty',
+        isVeg: !dish.name.toLowerCase().includes('chicken') && !dish.name.toLowerCase().includes('beef') && !dish.name.toLowerCase().includes('fish') && !dish.name.toLowerCase().includes('meat') && !dish.name.toLowerCase().includes('turkey'),
+        prepTime: dish.prepTimeMinutes || 25,
+      },
+      1,
+      restaurant?.name || 'Partner Restaurant'
+    );
+
     addNewOrder({
       customerName: user?.name || 'Pravin',
       avatar:

@@ -12,6 +12,7 @@ import RestaurantList from './pages/RestaurantList';
 import RestaurantDetails from './pages/RestaurantDetails';
 import MenuList from './pages/MenuList';
 import FoodDetails from './pages/FoodDetails';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -64,6 +65,16 @@ function App() {
           element={
             <ProtectedRoute>
               <FoodDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 5: Cart Management Protected Route */}
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
             </ProtectedRoute>
           }
         />

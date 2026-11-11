@@ -8,12 +8,16 @@ import { menuService } from '../services/api';
 import { useMenu } from '../context/MenuContext';
 import { useDashboard } from '../context/DashboardContext';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import {
   ArrowLeft,
   Star,
   Clock,
   Flame,
   ShoppingBag,
+  ShoppingCart,
+  Plus,
+  Minus,
   Edit3,
   Trash2,
   CheckCircle,
@@ -31,6 +35,9 @@ const FoodDetails = () => {
   const { menuItems, updateMenuItem, deleteMenuItem } = useMenu();
   const { addNewOrder } = useDashboard();
   const { user } = useAuth();
+  const { addToCart, cartItems } = useCart();
+
+  const [orderQuantity, setOrderQuantity] = useState(1);
 
   const cleanId = String(id || '').trim();
   const rawNumeric = cleanId.replace(/^food-/, '');
@@ -134,17 +141,18 @@ const FoodDetails = () => {
     };
   }, [id]);
 
-  // Add to Order action that replicates in Dashboard orders
+  // Add to Cart action that also replicates in Dashboard orders
   const handleAddToCart = () => {
     if (!item) return;
+    addToCart(item, orderQuantity, 'Food Court Central Kitchen');
     addNewOrder({
       customerName: user?.name || 'Pravin',
       avatar:
         user?.avatar ||
         'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
       restaurant: 'Food Court Central Kitchen',
-      items: item.name,
-      amount: item.price,
+      items: `${item.name}${orderQuantity > 1 ? ` (x${orderQuantity})` : ''}`,
+      amount: item.price * orderQuantity,
     });
   };
 
@@ -366,21 +374,63 @@ const FoodDetails = () => {
                   </div>
 
                   {/* Add to Order Action Bar */}
-                  <div className="pt-4 border-t border-neutral-800 flex items-center justify-between">
+                  <div className="pt-4 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <span className="text-xs text-neutral-400">Order from Food Court Kitchen:</span>
                       <p className="text-sm font-semibold text-white">Delivered in {parseInt(item.prepTime || 20, 10) + 15} minutes</p>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={handleAddToCart}
-                      disabled={!item.isAvailable}
-                      className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-500 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-xl shadow-red-600/30 transition cursor-pointer"
-                    >
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>{item.isAvailable ? 'Add to Food Court Order' : 'Currently Out of Stock'}</span>
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3">
+                      {/* Quantity Stepper */}
+                      {item.isAvailable && (
+                        <div className="flex items-center rounded-2xl bg-neutral-950 border border-neutral-800 p-1">
+                          <button
+                            type="button"
+                            onClick={() => setOrderQuantity((q) => Math.max(1, q - 1))}
+                            disabled={orderQuantity <= 1}
+                            className="w-9 h-9 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-800 disabled:opacity-40 transition cursor-pointer"
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="w-10 text-center font-bold text-white text-sm">
+                            {orderQuantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setOrderQuantity((q) => q + 1)}
+                            className="w-9 h-9 rounded-xl flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-800 transition cursor-pointer"
+                            aria-label="Increase quantity"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Add to Cart Button */}
+                      <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        disabled={!item.isAvailable}
+                        className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-500 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-xl shadow-red-600/30 transition cursor-pointer"
+                      >
+                        <ShoppingBag className="w-4 h-4" />
+                        <span>
+                          {item.isAvailable
+                            ? `Add ${orderQuantity > 1 ? `(${orderQuantity}) ` : ''}to Cart`
+                            : 'Currently Out of Stock'}
+                        </span>
+                      </button>
+
+                      {/* View Cart shortcut */}
+                      <Link
+                        to="/cart"
+                        className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white border border-neutral-700 text-sm font-semibold transition cursor-pointer"
+                      >
+                        <ShoppingCart className="w-4 h-4 text-red-500" />
+                        <span>Go to Cart</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
