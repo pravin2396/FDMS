@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
   Store,
+  UtensilsCrossed,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -37,6 +38,12 @@ const Sidebar = ({
       label: 'Restaurants',
       icon: Store,
       path: '/restaurants',
+    },
+    {
+      id: 'menu',
+      label: 'Food Menu',
+      icon: UtensilsCrossed,
+      path: '/menu',
     },
   ];
 
@@ -96,7 +103,8 @@ const Sidebar = ({
             const isCurrentActive =
               activeTab === item.id ||
               (item.path === '/' && location.pathname === '/') ||
-              (item.path === '/restaurants' && location.pathname.startsWith('/restaurants'));
+              (item.path === '/restaurants' && location.pathname.startsWith('/restaurants')) ||
+              (item.path === '/menu' && location.pathname.startsWith('/menu'));
 
             return (
               <button

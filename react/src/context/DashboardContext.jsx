@@ -107,8 +107,19 @@ export const DashboardProvider = ({ children }) => {
   });
 
   const [totalFoodItems, setTotalFoodItems] = useState(() => {
+    try {
+      const savedMenu = localStorage.getItem('fdms_menu_items');
+      if (savedMenu) {
+        const parsed = JSON.parse(savedMenu);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.length;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read fdms_menu_items', e);
+    }
     const saved = localStorage.getItem('fdms_total_food_items');
-    return saved ? parseInt(saved, 10) : 156;
+    return saved ? parseInt(saved, 10) : 30;
   });
 
   const [totalOrders, setTotalOrders] = useState(() => {
@@ -156,9 +167,10 @@ export const DashboardProvider = ({ children }) => {
         const data = await foodService.getRecipes(30, 0);
         if (data && data.recipes) {
           setApiRecipes(data.recipes);
-          // Dynamically adjust total food items if API total exists
-          if (data.total) {
-            setTotalFoodItems((prev) => Math.max(prev, data.total));
+          // Adjust total food items from API if not already tracked in local storage
+          const hasSavedMenu = localStorage.getItem('fdms_menu_items');
+          if (!hasSavedMenu && data.recipes && data.recipes.length) {
+            setTotalFoodItems(data.recipes.length);
           }
         }
       } catch (err) {
@@ -268,6 +280,8 @@ export const DashboardProvider = ({ children }) => {
         apiError,
         addRestaurant,
         addFoodItem,
+        setTotalFoodItems,
+        setTotalRestaurants,
         updateOrderStatus,
         addNewOrder,
         setTotalCustomers,

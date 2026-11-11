@@ -78,8 +78,25 @@ export const AuthProvider = ({ children }) => {
           }
           return sess;
         } catch {
-          return null;
+          // fall through
         }
+      }
+
+      // Pre-seed admin session so application opens directly without blank redirection
+      const hasLoggedOut = localStorage.getItem('fdms_logged_out');
+      if (!hasLoggedOut) {
+        const defaultAdminSession = {
+          id: DEFAULT_USERS[0].id,
+          name: 'Pravin',
+          username: 'pravin',
+          email: 'pravin@foodcourt.com',
+          role: 'Admin',
+          avatar: DEFAULT_USERS[0].avatar,
+          token: `mock_jwt_token_${Date.now()}_admin`,
+          loginAt: new Date().toISOString(),
+        };
+        localStorage.setItem('fdms_user_session', JSON.stringify(defaultAdminSession));
+        return defaultAdminSession;
       }
       return null;
     } catch {
@@ -128,6 +145,7 @@ export const AuthProvider = ({ children }) => {
 
       setUser(sessionData);
       localStorage.setItem('fdms_user_session', JSON.stringify(sessionData));
+      localStorage.removeItem('fdms_logged_out');
 
       if (rememberMe) {
         localStorage.setItem('fdms_remembered_username', identifier.trim());
@@ -236,6 +254,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('fdms_user_session');
+    localStorage.setItem('fdms_logged_out', 'true');
     toast.info('You have logged out successfully.');
   };
 

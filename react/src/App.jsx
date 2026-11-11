@@ -10,6 +10,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import RestaurantList from './pages/RestaurantList';
 import RestaurantDetails from './pages/RestaurantDetails';
+import MenuList from './pages/MenuList';
+import FoodDetails from './pages/FoodDetails';
 
 function App() {
   return (
@@ -44,6 +46,24 @@ function App() {
           element={
             <ProtectedRoute>
               <RestaurantDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 4: Menu Management & Food Details Protected Routes */}
+        <Route
+          path="/menu"
+          element={
+            <ProtectedRoute>
+              <MenuList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/menu/:id"
+          element={
+            <ProtectedRoute>
+              <FoodDetails />
             </ProtectedRoute>
           }
         />

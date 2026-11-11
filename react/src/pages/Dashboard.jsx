@@ -9,6 +9,7 @@ import AddRestaurantModal from '../components/AddRestaurantModal';
 import AddFoodItemModal from '../components/AddFoodItemModal';
 import { useDashboard } from '../context/DashboardContext';
 import { useRestaurants } from '../context/RestaurantContext';
+import { useMenu } from '../context/MenuContext';
 import {
   Store,
   UtensilsCrossed,
@@ -26,15 +27,19 @@ const Dashboard = () => {
     recentOrders,
     apiError,
     addRestaurant,
-    addFoodItem,
     updateOrderStatus,
     addNewOrder,
   } = useDashboard();
   const { addRestaurant: addRestaurantToCatalog } = useRestaurants();
+  const { menuItems, addMenuItem } = useMenu();
 
   const handleAddRestaurant = (restaurantData) => {
     addRestaurant(restaurantData);
     addRestaurantToCatalog(restaurantData);
+  };
+
+  const handleAddFoodItem = async (foodData) => {
+    await addMenuItem(foodData);
   };
 
   // Sidebar responsive state
@@ -149,12 +154,13 @@ const Dashboard = () => {
               {/* Metric 2: Total Food Items */}
               <StatCard
                 title="Total Food Items"
-                value={metrics.totalFoodItems}
+                value={menuItems && menuItems.length > 0 ? menuItems.length : metrics.totalFoodItems}
                 change="+18 items"
                 isPositive={true}
                 subtext="Available menu dishes"
                 icon={UtensilsCrossed}
                 accentColor="amber"
+                linkTo="/menu"
               />
 
               {/* Metric 3: Total Orders */}
@@ -237,7 +243,7 @@ const Dashboard = () => {
       <AddFoodItemModal
         isOpen={isFoodModalOpen}
         onClose={() => setIsFoodModalOpen(false)}
-        onAdd={addFoodItem}
+        onAdd={handleAddFoodItem}
       />
     </div>
   );
