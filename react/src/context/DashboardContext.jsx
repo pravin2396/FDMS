@@ -239,15 +239,19 @@ export const DashboardProvider = ({ children }) => {
 
   const addNewOrder = (order) => {
     const formattedOrder = {
-      id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+      id: order.id || `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
       customerName: order.customerName || 'Walk-in Customer',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
+      avatar:
+        order.avatar ||
+        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
       restaurant: order.restaurant || 'Food Court Central',
       items: order.items || 'Meal Combo Box',
       amount: order.amount || 450,
-      status: 'Preparing',
-      time: 'Just now',
-      date: new Date().toISOString().split('T')[0],
+      status: order.status || 'Preparing',
+      time: order.time || 'Just now',
+      date: order.date || new Date().toISOString().split('T')[0],
+      deliveryAddress: order.deliveryAddress || 'Food Court Dine-in',
+      paymentMethod: order.paymentMethod || 'UPI',
     };
 
     setRecentOrders((prev) => [formattedOrder, ...prev]);

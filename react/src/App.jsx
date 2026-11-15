@@ -13,6 +13,8 @@ import RestaurantDetails from './pages/RestaurantDetails';
 import MenuList from './pages/MenuList';
 import FoodDetails from './pages/FoodDetails';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 
 function App() {
   return (
@@ -75,6 +77,24 @@ function App() {
           element={
             <ProtectedRoute>
               <Cart />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 6: Order Placement Protected Routes */}
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-confirmation/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderConfirmation />
             </ProtectedRoute>
           }
         />

@@ -63,15 +63,12 @@ const Cart = () => {
     setCouponInput('');
   };
 
-  const handlePlaceOrder = () => {
-    const success = checkout({
-      name: user?.name || 'Pravin',
-      instructions: chefInstructions,
-      location: tableNumber,
-    });
-    if (success) {
-      setIsOrderSuccess(true);
+  const handleProceedToCheckout = () => {
+    if (cartItems.length === 0) {
+      toast.error('Your cart is empty. Please add items before checking out.');
+      return;
     }
+    navigate('/checkout');
   };
 
   return (
@@ -534,7 +531,7 @@ const Cart = () => {
                   {/* Checkout Button */}
                   <button
                     type="button"
-                    onClick={handlePlaceOrder}
+                    onClick={handleProceedToCheckout}
                     disabled={cartItems.length === 0}
                     className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-red-600 hover:bg-red-500 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-extrabold text-sm shadow-xl shadow-red-600/30 transition cursor-pointer active:scale-[0.99]"
                   >
