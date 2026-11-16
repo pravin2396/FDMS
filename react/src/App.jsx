@@ -18,6 +18,7 @@ import OrderConfirmation from './pages/OrderConfirmation';
 import OrdersList from './pages/OrdersList';
 import OrderTracking from './pages/OrderTracking';
 import Profile from './pages/Profile';
+import Payment from './pages/Payment';
 
 function App() {
   return (
@@ -126,6 +127,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 9: Coupons & Payment Protected Route */}
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              <Payment />
             </ProtectedRoute>
           }
         />

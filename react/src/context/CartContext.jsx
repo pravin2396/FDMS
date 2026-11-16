@@ -3,6 +3,43 @@ import { toast } from 'react-toastify';
 import { useDashboard } from './DashboardContext';
 import { useAuth } from './AuthContext';
 
+export const AVAILABLE_COUPONS = [
+  {
+    code: 'FOODCOURT50',
+    type: 'flat',
+    discount: 50,
+    minOrder: 299,
+    description: 'Flat ₹50 OFF on orders above ₹299',
+    badge: 'POPULAR',
+  },
+  {
+    code: 'WELCOME10',
+    type: 'percentage',
+    discount: 10,
+    maxDiscount: 100,
+    minOrder: 0,
+    description: '10% OFF up to ₹100 on all orders',
+    badge: 'NEW USER',
+  },
+  {
+    code: 'TASTY20',
+    type: 'percentage',
+    discount: 20,
+    maxDiscount: 150,
+    minOrder: 499,
+    description: '20% OFF up to ₹150 on orders above ₹499',
+    badge: 'FOODIE SPECIAL',
+  },
+  {
+    code: 'FESTIVE100',
+    type: 'flat',
+    discount: 100,
+    minOrder: 799,
+    description: 'Flat ₹100 OFF on family orders above ₹799',
+    badge: 'MEGA SAVINGS',
+  },
+];
+
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
@@ -155,12 +192,21 @@ export const CartProvider = ({ children }) => {
     // Packaging fee of ₹15 if cart not empty
     const packFee = rawSubtotal === 0 ? 0 : 15;
 
-    // Calculate Promo Discount
+    // Calculate Promo Discount dynamically based on AVAILABLE_COUPONS
     let promoDiscount = 0;
-    if (promoCode.toUpperCase() === 'FOODCOURT50' && rawSubtotal >= 299) {
-      promoDiscount = 50;
-    } else if (promoCode.toUpperCase() === 'WELCOME10' && rawSubtotal > 0) {
-      promoDiscount = Math.round(rawSubtotal * 0.1);
+    if (promoCode) {
+      const cleanCode = promoCode.toUpperCase();
+      const matchedCoupon = AVAILABLE_COUPONS.find((c) => c.code === cleanCode);
+      if (matchedCoupon && rawSubtotal >= matchedCoupon.minOrder) {
+        if (matchedCoupon.type === 'flat') {
+          promoDiscount = matchedCoupon.discount;
+        } else if (matchedCoupon.type === 'percentage') {
+          const calculated = Math.round((rawSubtotal * matchedCoupon.discount) / 100);
+          promoDiscount = matchedCoupon.maxDiscount
+            ? Math.min(calculated, matchedCoupon.maxDiscount)
+            : calculated;
+        }
+      }
     }
     setDiscountAmount(promoDiscount);
 
@@ -182,24 +228,27 @@ export const CartProvider = ({ children }) => {
     const clean = code.trim().toUpperCase();
     if (!clean) return { success: false, message: 'Please enter a coupon code' };
 
-    if (clean === 'FOODCOURT50') {
-      if (subtotal < 299) {
-        toast.warning('Coupon FOODCOURT50 is valid on orders above ₹299');
-        return { success: false, message: 'Minimum order ₹299 required' };
-      }
-      setPromoCode('FOODCOURT50');
-      toast.success('Coupon FOODCOURT50 applied! ₹50 OFF');
-      return { success: true, message: '₹50 discount applied' };
+    const coupon = AVAILABLE_COUPONS.find((c) => c.code === clean);
+    if (!coupon) {
+      toast.error('Invalid coupon code. Explore our available offers below!');
+      return { success: false, message: 'Invalid coupon' };
     }
 
-    if (clean === 'WELCOME10') {
-      setPromoCode('WELCOME10');
-      toast.success('Coupon WELCOME10 applied! 10% OFF');
-      return { success: true, message: '10% discount applied' };
+    if (subtotal < coupon.minOrder) {
+      toast.warning(`Coupon ${coupon.code} requires a minimum order of ₹${coupon.minOrder}`);
+      return {
+        success: false,
+        message: `Min order ₹${coupon.minOrder} required. Add ₹${coupon.minOrder - subtotal} more!`,
+      };
     }
 
-    toast.error('Invalid coupon code. Try FOODCOURT50 or WELCOME10');
-    return { success: false, message: 'Invalid coupon' };
+    setPromoCode(coupon.code);
+    const savings =
+      coupon.type === 'flat'
+        ? `₹${coupon.discount} OFF`
+        : `${coupon.discount}% OFF (up to ₹${coupon.maxDiscount})`;
+    toast.success(`Coupon ${coupon.code} applied! Saved ${savings}`);
+    return { success: true, message: `${savings} applied` };
   };
 
   const removePromoCode = () => {
@@ -255,6 +304,7 @@ export const CartProvider = ({ children }) => {
         discountAmount,
         totalPrice,
         promoCode,
+        availableCoupons: AVAILABLE_COUPONS,
         addToCart,
         removeFromCart,
         updateQuantity,

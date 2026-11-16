@@ -16,6 +16,7 @@ import {
   CreditCard,
   Smartphone,
   Banknote,
+  Wallet,
   Building,
   Receipt,
   Sparkles,
@@ -133,6 +134,12 @@ const Checkout = () => {
 
     if (!selectedAddress) {
       toast.error('Please select or add a delivery address.');
+      return;
+    }
+
+    // Direct to dedicated Payment page for interactive card/UPI/wallet payment
+    if (paymentMethod === 'Card' || paymentMethod === 'UPI' || paymentMethod === 'Wallet') {
+      navigate('/payment');
       return;
     }
 
@@ -582,27 +589,43 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  {/* Net Banking */}
+                  {/* Digital Wallet */}
                   <div
-                    onClick={() => setPaymentMethod('NetBanking')}
+                    onClick={() => setPaymentMethod('Wallet')}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center gap-3.5 ${
-                      paymentMethod === 'NetBanking'
+                      paymentMethod === 'Wallet'
                         ? 'bg-red-950/20 border-red-500'
                         : 'bg-neutral-950/70 border-neutral-800 hover:border-neutral-700'
                     }`}
                   >
-                    <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-700 flex items-center justify-center text-amber-400 shrink-0">
-                      <Building className="w-5 h-5" />
+                    <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-700 flex items-center justify-center text-purple-400 shrink-0">
+                      <Wallet className="w-5 h-5" />
                     </div>
                     <div>
                       <span className="font-bold text-white text-xs block">
-                        Net Banking
+                        Digital Wallets
                       </span>
                       <span className="text-[10px] text-neutral-400">
-                        All major Indian banks
+                        Express Wallet, Paytm, Amazon Pay
                       </span>
                     </div>
                   </div>
+                </div>
+
+                {/* Direct Link to Dedicated Payment & Coupons Page */}
+                <div className="p-3.5 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span className="text-xs text-neutral-300">
+                      Want interactive Card mockup, QR code scan, or wallet balances?
+                    </span>
+                  </div>
+                  <Link
+                    to="/payment"
+                    className="px-3 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/40 text-xs font-bold transition shrink-0"
+                  >
+                    Open Payment Gateway
+                  </Link>
                 </div>
 
                 {/* Chef Special Notes */}
