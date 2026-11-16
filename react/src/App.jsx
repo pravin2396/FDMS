@@ -103,9 +103,17 @@ function App() {
           }
         />
 
-        {/* Module 7: Order Tracking Protected Routes */}
+        {/* Module 7 & 10: Order Tracking & Order History Protected Routes */}
         <Route
           path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrdersList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-history"
           element={
             <ProtectedRoute>
               <OrdersList />

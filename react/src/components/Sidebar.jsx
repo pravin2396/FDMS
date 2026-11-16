@@ -65,7 +65,7 @@ const Sidebar = ({
     },
     {
       id: 'orders',
-      label: 'Track Orders',
+      label: 'Order History',
       icon: Clock,
       path: '/orders',
       badge: activeOrdersCount > 0 ? activeOrdersCount : null,
