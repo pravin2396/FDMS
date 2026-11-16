@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Search,
   CheckCircle2,
@@ -7,6 +8,7 @@ import {
   XCircle,
   ShoppingBag,
   X,
+  ExternalLink,
 } from 'lucide-react';
 
 const RecentOrdersTable = ({ orders = [], onUpdateStatus }) => {
@@ -204,15 +206,25 @@ const RecentOrdersTable = ({ orders = [], onUpdateStatus }) => {
                     {order.time}
                   </td>
 
-                  {/* Actions / Change Status Dropdown */}
+                  {/* Actions / Change Status Dropdown & Track Link */}
                   <td className="py-3.5 px-4 text-right relative whitespace-nowrap">
-                    <div className="inline-flex items-center gap-1">
+                    <div className="inline-flex items-center gap-2">
+                      <Link
+                        to={`/track/${order.id}`}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-red-600 text-neutral-300 hover:text-white border border-neutral-700 hover:border-red-500 text-[11px] font-semibold transition cursor-pointer"
+                        title="View Live Order Tracking"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>Track</span>
+                      </Link>
+
                       <select
                         value={order.status}
                         onChange={(e) => onUpdateStatus && onUpdateStatus(order.id, e.target.value)}
                         className="bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-neutral-200 text-[11px] font-medium rounded-lg px-2 py-1 outline-none focus:border-red-500 cursor-pointer transition"
                       >
                         <option value="Preparing">Preparing</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
                         <option value="On the Way">On the Way</option>
                         <option value="Delivered">Delivered</option>
                         <option value="Cancelled">Cancelled</option>

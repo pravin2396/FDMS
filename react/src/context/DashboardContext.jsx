@@ -221,13 +221,19 @@ export const DashboardProvider = ({ children }) => {
       prev.map((order) => {
         if (order.id === orderId) {
           const oldStatus = order.status;
-          // Adjust active / delivered counters
+          // Adjust active / delivered / cancelled counters
           if (oldStatus !== 'Delivered' && newStatus === 'Delivered') {
             setActiveOrders((c) => Math.max(0, c - 1));
             setDeliveredOrders((c) => c + 1);
           } else if (oldStatus === 'Delivered' && newStatus !== 'Delivered') {
             setDeliveredOrders((c) => Math.max(0, c - 1));
-            setActiveOrders((c) => c + 1);
+            if (newStatus !== 'Cancelled') setActiveOrders((c) => c + 1);
+          } else if (oldStatus !== 'Cancelled' && newStatus === 'Cancelled') {
+            if (oldStatus !== 'Delivered') {
+              setActiveOrders((c) => Math.max(0, c - 1));
+            } else {
+              setDeliveredOrders((c) => Math.max(0, c - 1));
+            }
           }
           return { ...order, status: newStatus };
         }

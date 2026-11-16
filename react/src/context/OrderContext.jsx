@@ -45,8 +45,386 @@ const DEFAULT_ADDRESSES = [
   },
 ];
 
+// Delivery Partner Mockup info
+const DEFAULT_DELIVERY_PARTNER = {
+  name: 'Ramesh Kumar',
+  phone: '+91 98412 88721',
+  vehicle: 'Honda Activa (TN 09 BX 4521)',
+  rating: 4.9,
+  totalDeliveries: '1,420+',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+};
+
+// Initial Seed Orders for Instant Demo of all 4 statuses
+const INITIAL_ORDERS_SEED = [
+  {
+    id: 'FDMS-ORD-2026-8919',
+    orderNumber: 8919,
+    items: [
+      {
+        id: 'food-seed-1',
+        name: 'Classic Margherita Pizza',
+        price: 350,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=800&q=80',
+        category: 'Pizza',
+        isVeg: true,
+      },
+      {
+        id: 'food-seed-2',
+        name: 'Garlic Breadsticks with Dip',
+        price: 200,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=800&q=80',
+        category: 'Sides',
+        isVeg: true,
+      },
+    ],
+    itemsSummary: 'Classic Margherita Pizza (x1), Garlic Breadsticks with Dip (x1)',
+    restaurant: 'Pizza & Pasta Co.',
+    customerName: 'Pravin Kumar',
+    customerPhone: '9876543210',
+    deliveryAddress: {
+      fullName: 'Pravin Kumar',
+      phone: '9876543210',
+      street: 'Food Court 2nd Floor, Zone B',
+      landmark: 'Table #08 (Near Juice Bar)',
+      city: 'Chennai',
+      pincode: '600001',
+      type: 'Table / Dine-in',
+    },
+    paymentMethod: 'UPI',
+    paymentStatus: 'Paid Online (Verified)',
+    chefInstructions: 'Extra oregano and chili flakes please',
+    billBreakdown: {
+      subtotal: 550,
+      deliveryFee: 0,
+      tax: 28,
+      packagingFee: 15,
+      discountAmount: 50,
+      promoCode: 'FOODCOURT50',
+      grandTotal: 543,
+    },
+    amount: 543,
+    status: 'Preparing', // Preparing status
+    estimatedDelivery: {
+      minutesRange: '15-20 mins',
+      minMinutes: 15,
+      maxMinutes: 20,
+      estimatedClockTime: '10:05 AM',
+      remainingMinutes: 18,
+    },
+    deliveryPartner: DEFAULT_DELIVERY_PARTNER,
+    createdAt: new Date(Date.now() - 10 * 60000).toISOString(),
+    orderDate: new Date().toISOString().split('T')[0],
+    orderTime: '09:45 AM',
+    timeline: [
+      {
+        stage: 'Placed',
+        title: 'Order Confirmed',
+        time: '09:45 AM',
+        description: 'Order received and verified by Pizza & Pasta Co.',
+        completed: true,
+      },
+      {
+        stage: 'Preparing',
+        title: 'Kitchen Preparing',
+        time: '09:48 AM',
+        description: 'Chef is baking your pizza with fresh dough and mozzarella.',
+        completed: true,
+        current: true,
+      },
+      {
+        stage: 'Out for Delivery',
+        title: 'Out for Delivery',
+        time: 'Expected 10:00 AM',
+        description: 'Delivery partner will pick up hot food from counter.',
+        completed: false,
+      },
+      {
+        stage: 'Delivered',
+        title: 'Delivered',
+        time: 'Expected 10:05 AM',
+        description: 'Enjoy your hot meal at Table #08.',
+        completed: false,
+      },
+    ],
+  },
+  {
+    id: 'FDMS-ORD-2026-8918',
+    orderNumber: 8918,
+    items: [
+      {
+        id: 'food-seed-3',
+        name: 'Double Truffle Smash Burger',
+        price: 320,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80',
+        category: 'Burgers',
+        isVeg: false,
+      },
+      {
+        id: 'food-seed-4',
+        name: 'Peri Peri Fries',
+        price: 100,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=800&q=80',
+        category: 'Sides',
+        isVeg: true,
+      },
+    ],
+    itemsSummary: 'Double Truffle Smash Burger (x1), Peri Peri Fries (x1)',
+    restaurant: 'Burger Barn',
+    customerName: 'Ananya Roy',
+    customerPhone: '9845012345',
+    deliveryAddress: {
+      fullName: 'Ananya Roy',
+      phone: '9845012345',
+      street: 'Ascendas IT Park, 4th Floor, Block C',
+      landmark: 'Taramani',
+      city: 'Chennai',
+      pincode: '600113',
+      type: 'Work',
+    },
+    paymentMethod: 'Card',
+    paymentStatus: 'Paid Online (Verified)',
+    chefInstructions: 'Less salt on fries',
+    billBreakdown: {
+      subtotal: 420,
+      deliveryFee: 40,
+      tax: 21,
+      packagingFee: 15,
+      discountAmount: 0,
+      promoCode: null,
+      grandTotal: 496,
+    },
+    amount: 496,
+    status: 'Out for Delivery', // Out for delivery status
+    estimatedDelivery: {
+      minutesRange: '8-12 mins',
+      minMinutes: 8,
+      maxMinutes: 12,
+      estimatedClockTime: '09:55 AM',
+      remainingMinutes: 10,
+    },
+    deliveryPartner: {
+      ...DEFAULT_DELIVERY_PARTNER,
+      name: 'Karthik Raja',
+      phone: '+91 97911 23890',
+    },
+    createdAt: new Date(Date.now() - 25 * 60000).toISOString(),
+    orderDate: new Date().toISOString().split('T')[0],
+    orderTime: '09:30 AM',
+    timeline: [
+      {
+        stage: 'Placed',
+        title: 'Order Confirmed',
+        time: '09:30 AM',
+        description: 'Order accepted by Burger Barn.',
+        completed: true,
+      },
+      {
+        stage: 'Preparing',
+        title: 'Kitchen Preparing',
+        time: '09:34 AM',
+        description: 'Burger smashed and packed hot.',
+        completed: true,
+      },
+      {
+        stage: 'Out for Delivery',
+        title: 'Out for Delivery',
+        time: '09:44 AM',
+        description: 'Delivery partner Karthik is en route to Ascendas IT Park.',
+        completed: true,
+        current: true,
+      },
+      {
+        stage: 'Delivered',
+        title: 'Delivered',
+        time: 'Expected 09:55 AM',
+        description: 'Drop off at reception desk.',
+        completed: false,
+      },
+    ],
+  },
+  {
+    id: 'FDMS-ORD-2026-8917',
+    orderNumber: 8917,
+    items: [
+      {
+        id: 'food-seed-5',
+        name: 'Paneer Butter Masala',
+        price: 370,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80',
+        category: 'Curries',
+        isVeg: true,
+      },
+      {
+        id: 'food-seed-6',
+        name: 'Butter Naan',
+        price: 80,
+        quantity: 3,
+        image: 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80',
+        category: 'Breads',
+        isVeg: true,
+      },
+    ],
+    itemsSummary: 'Paneer Butter Masala (x1), Butter Naan (x3)',
+    restaurant: 'Spice Route Kitchen',
+    customerName: 'Rahul Verma',
+    customerPhone: '9840199882',
+    deliveryAddress: {
+      fullName: 'Rahul Verma',
+      phone: '9840199882',
+      street: 'No. 24, 2nd Main Road, Gandhi Nagar',
+      landmark: 'Opposite Community Hall',
+      city: 'Chennai',
+      pincode: '600020',
+      type: 'Home',
+    },
+    paymentMethod: 'COD',
+    paymentStatus: 'Paid via Cash (Delivered)',
+    chefInstructions: 'Mild spicy curry',
+    billBreakdown: {
+      subtotal: 610,
+      deliveryFee: 0,
+      tax: 31,
+      packagingFee: 15,
+      discountAmount: 0,
+      promoCode: null,
+      grandTotal: 656,
+    },
+    amount: 656,
+    status: 'Delivered', // Delivered status
+    estimatedDelivery: {
+      minutesRange: 'Delivered',
+      minMinutes: 0,
+      maxMinutes: 0,
+      estimatedClockTime: 'Delivered at 09:15 AM',
+      remainingMinutes: 0,
+    },
+    deliveryPartner: DEFAULT_DELIVERY_PARTNER,
+    createdAt: new Date(Date.now() - 90 * 60000).toISOString(),
+    orderDate: new Date().toISOString().split('T')[0],
+    orderTime: '08:35 AM',
+    timeline: [
+      {
+        stage: 'Placed',
+        title: 'Order Confirmed',
+        time: '08:35 AM',
+        description: 'Order confirmed by Spice Route Kitchen.',
+        completed: true,
+      },
+      {
+        stage: 'Preparing',
+        title: 'Kitchen Preparing',
+        time: '08:40 AM',
+        description: 'Chef prepared tandoor naan and curry.',
+        completed: true,
+      },
+      {
+        stage: 'Out for Delivery',
+        title: 'Out for Delivery',
+        time: '08:58 AM',
+        description: 'Runner picked up order.',
+        completed: true,
+      },
+      {
+        stage: 'Delivered',
+        title: 'Delivered',
+        time: '09:15 AM',
+        description: 'Package handed over to customer.',
+        completed: true,
+        current: true,
+      },
+    ],
+  },
+  {
+    id: 'FDMS-ORD-2026-8916',
+    orderNumber: 8916,
+    items: [
+      {
+        id: 'food-seed-7',
+        name: 'Chocolate Lava Cake',
+        price: 220,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80',
+        category: 'Dessert',
+        isVeg: true,
+      },
+      {
+        id: 'food-seed-8',
+        name: 'Cold Brew Hazelnut',
+        price: 130,
+        quantity: 1,
+        image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80',
+        category: 'Beverage',
+        isVeg: true,
+      },
+    ],
+    itemsSummary: 'Chocolate Lava Cake (x1), Cold Brew Hazelnut (x1)',
+    restaurant: 'Sweet Tooth Bakery',
+    customerName: 'Sneha Kulkarni',
+    customerPhone: '9822011223',
+    deliveryAddress: {
+      fullName: 'Sneha Kulkarni',
+      phone: '9822011223',
+      street: 'Tower B, Suite 102',
+      landmark: 'Near Lift Lobby',
+      city: 'Chennai',
+      pincode: '600001',
+      type: 'Work',
+    },
+    paymentMethod: 'UPI',
+    paymentStatus: 'Refunded to Source (Order Cancelled)',
+    chefInstructions: 'Extra napkins',
+    billBreakdown: {
+      subtotal: 350,
+      deliveryFee: 40,
+      tax: 18,
+      packagingFee: 15,
+      discountAmount: 0,
+      promoCode: null,
+      grandTotal: 423,
+    },
+    amount: 423,
+    status: 'Cancelled', // Cancelled status
+    estimatedDelivery: {
+      minutesRange: 'Cancelled',
+      minMinutes: 0,
+      maxMinutes: 0,
+      estimatedClockTime: 'Cancelled',
+      remainingMinutes: 0,
+    },
+    cancellationReason: 'Customer requested cancellation due to meeting reschedule',
+    deliveryPartner: null,
+    createdAt: new Date(Date.now() - 150 * 60000).toISOString(),
+    orderDate: new Date().toISOString().split('T')[0],
+    orderTime: '07:20 AM',
+    timeline: [
+      {
+        stage: 'Placed',
+        title: 'Order Confirmed',
+        time: '07:20 AM',
+        description: 'Order placed by customer.',
+        completed: true,
+      },
+      {
+        stage: 'Cancelled',
+        title: 'Order Cancelled',
+        time: '07:24 AM',
+        description: 'Customer requested cancellation. Full refund initiated.',
+        completed: true,
+        current: true,
+        isCancelled: true,
+      },
+    ],
+  },
+];
+
 export const OrderProvider = ({ children }) => {
-  const { addNewOrder } = useDashboard();
+  const { addNewOrder, updateOrderStatus: updateDashboardOrderStatus } = useDashboard();
   const { cartItems, totalPrice, subtotal, deliveryFee, tax, packagingFee, discountAmount, promoCode, clearCart } = useCart();
   const { user } = useAuth();
 
@@ -84,12 +462,12 @@ export const OrderProvider = ({ children }) => {
       const stored = localStorage.getItem('fdms_orders');
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     } catch (e) {
       console.warn('Could not read orders from localStorage', e);
     }
-    return [];
+    return INITIAL_ORDERS_SEED;
   });
 
   // Most recent order
@@ -100,7 +478,7 @@ export const OrderProvider = ({ children }) => {
     } catch (e) {
       console.warn('Could not read current order', e);
     }
-    return null;
+    return orders[0] || INITIAL_ORDERS_SEED[0];
   });
 
   // Persist orders
@@ -148,7 +526,6 @@ export const OrderProvider = ({ children }) => {
 
   // Helper to generate dynamic estimated delivery time
   const calculateEstimatedDelivery = (items = []) => {
-    // Determine max prep time from items in cart
     const maxPrep = items.reduce((max, it) => {
       const pt = parseInt(it.prepTime, 10) || 20;
       return pt > max ? pt : max;
@@ -157,7 +534,6 @@ export const OrderProvider = ({ children }) => {
     const minMinutes = maxPrep + 5;
     const maxMinutes = maxPrep + 15;
 
-    // Calculate arrival clock time
     const now = new Date();
     const arrivalTime = new Date(now.getTime() + maxMinutes * 60000);
     const formattedClock = arrivalTime.toLocaleTimeString([], {
@@ -171,8 +547,70 @@ export const OrderProvider = ({ children }) => {
       minMinutes,
       maxMinutes,
       estimatedClockTime: formattedClock,
+      remainingMinutes: maxMinutes,
       status: 'Kitchen Preparing',
     };
+  };
+
+  // Build standard timeline for an order given its current status
+  const buildTimelineForStatus = (status, orderTime = 'Just now') => {
+    const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+
+    if (status === 'Cancelled') {
+      return [
+        {
+          stage: 'Placed',
+          title: 'Order Confirmed',
+          time: orderTime,
+          description: 'Order confirmed and verified.',
+          completed: true,
+        },
+        {
+          stage: 'Cancelled',
+          title: 'Order Cancelled',
+          time: nowTime,
+          description: 'Order was cancelled. Full refund initiated to original payment mode.',
+          completed: true,
+          current: true,
+          isCancelled: true,
+        },
+      ];
+    }
+
+    return [
+      {
+        stage: 'Placed',
+        title: 'Order Confirmed',
+        time: orderTime,
+        description: 'Order received and verified by kitchen.',
+        completed: true,
+        current: status === 'Placed',
+      },
+      {
+        stage: 'Preparing',
+        title: 'Kitchen Preparing',
+        time: status === 'Placed' ? 'Upcoming' : nowTime,
+        description: 'Chef is preparing fresh ingredients in the kitchen.',
+        completed: status === 'Preparing' || status === 'Out for Delivery' || status === 'Delivered',
+        current: status === 'Preparing',
+      },
+      {
+        stage: 'Out for Delivery',
+        title: 'Out for Delivery',
+        time: status === 'Delivered' ? 'Completed' : status === 'Out for Delivery' ? nowTime : 'Upcoming',
+        description: 'Assigned to delivery partner. Food is on its way.',
+        completed: status === 'Out for Delivery' || status === 'Delivered',
+        current: status === 'Out for Delivery',
+      },
+      {
+        stage: 'Delivered',
+        title: 'Delivered',
+        time: status === 'Delivered' ? nowTime : 'Upcoming',
+        description: 'Order handed over. Enjoy your meal!',
+        completed: status === 'Delivered',
+        current: status === 'Delivered',
+      },
+    ];
   };
 
   // 3. Place Order Function
@@ -182,7 +620,6 @@ export const OrderProvider = ({ children }) => {
     chefInstructions = '',
     customCustomerName = '',
   }) => {
-    // PREVENT EMPTY CART CHECKOUT
     if (!cartItems || cartItems.length === 0) {
       toast.error('Cannot place order: Your cart is empty!');
       return { success: false, error: 'Empty cart' };
@@ -193,11 +630,9 @@ export const OrderProvider = ({ children }) => {
       return { success: false, error: 'Missing address' };
     }
 
-    // Generate standardized unique Order ID: e.g. FDMS-ORD-2026-78491
     const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const generatedOrderId = `FDMS-ORD-2026-${randomSuffix}`;
 
-    // Estimated delivery time
     const estimatedDelivery = calculateEstimatedDelivery(cartItems);
 
     const now = new Date();
@@ -210,6 +645,8 @@ export const OrderProvider = ({ children }) => {
 
     const primaryRestaurant = cartItems[0]?.restaurant || 'Food Court Central Kitchen';
     const itemsSummary = cartItems.map((ci) => `${ci.name} (x${ci.quantity})`).join(', ');
+
+    const timeline = buildTimelineForStatus('Preparing', formattedTime);
 
     const newOrder = {
       id: generatedOrderId,
@@ -228,7 +665,7 @@ export const OrderProvider = ({ children }) => {
         pincode: deliveryAddress.pincode || '600001',
         type: deliveryAddress.type || 'Table / Dine-in',
       },
-      paymentMethod, // 'UPI' | 'Card' | 'COD' | 'NetBanking'
+      paymentMethod,
       paymentStatus: paymentMethod === 'COD' ? 'Pending (Pay on Delivery)' : 'Paid Online (Verified)',
       chefInstructions: chefInstructions || 'None',
       billBreakdown: {
@@ -242,7 +679,9 @@ export const OrderProvider = ({ children }) => {
       },
       amount: totalPrice,
       estimatedDelivery,
-      status: 'Kitchen Preparing',
+      deliveryPartner: DEFAULT_DELIVERY_PARTNER,
+      status: 'Preparing', // Initial Status: Preparing
+      timeline,
       createdAt: now.toISOString(),
       orderDate: formattedDate,
       orderTime: formattedTime,
@@ -274,6 +713,90 @@ export const OrderProvider = ({ children }) => {
     return { success: true, order: newOrder };
   };
 
+  // 4. Update Order Status (Preparing -> Out for Delivery -> Delivered -> Cancelled)
+  const updateOrderStatus = (orderId, newStatus) => {
+    if (!orderId || !newStatus) return;
+    const cleanId = String(orderId).trim();
+
+    setOrders((prevOrders) => {
+      return prevOrders.map((ord) => {
+        if (String(ord.id) === cleanId) {
+          const updatedTimeline = buildTimelineForStatus(newStatus, ord.orderTime);
+          const updated = {
+            ...ord,
+            status: newStatus,
+            timeline: updatedTimeline,
+            paymentStatus:
+              newStatus === 'Cancelled'
+                ? 'Refund Initiated'
+                : newStatus === 'Delivered' && ord.paymentMethod === 'COD'
+                ? 'Paid in Cash (Verified)'
+                : ord.paymentStatus,
+          };
+          if (currentOrder && String(currentOrder.id) === cleanId) {
+            setCurrentOrder(updated);
+          }
+          return updated;
+        }
+        return ord;
+      });
+    });
+
+    // Sync with DashboardContext
+    if (updateDashboardOrderStatus) {
+      updateDashboardOrderStatus(cleanId, newStatus);
+    }
+
+    toast.info(`Order #${cleanId} status updated to "${newStatus}"`);
+  };
+
+  // 5. Cancel Order
+  const cancelOrder = (orderId, reason = 'Customer requested cancellation') => {
+    if (!orderId) return;
+    const cleanId = String(orderId).trim();
+
+    setOrders((prevOrders) => {
+      return prevOrders.map((ord) => {
+        if (String(ord.id) === cleanId) {
+          const updated = {
+            ...ord,
+            status: 'Cancelled',
+            cancellationReason: reason,
+            timeline: buildTimelineForStatus('Cancelled', ord.orderTime),
+            paymentStatus: 'Refund Initiated',
+          };
+          if (currentOrder && String(currentOrder.id) === cleanId) {
+            setCurrentOrder(updated);
+          }
+          return updated;
+        }
+        return ord;
+      });
+    });
+
+    if (updateDashboardOrderStatus) {
+      updateDashboardOrderStatus(cleanId, 'Cancelled');
+    }
+
+    toast.warning(`Order #${cleanId} has been cancelled.`);
+  };
+
+  // 6. Simulate Next Status (for interactive demo & testing)
+  const simulateNextStatus = (orderId) => {
+    const order = getOrderById(orderId);
+    if (!order) return;
+
+    if (order.status === 'Preparing') {
+      updateOrderStatus(orderId, 'Out for Delivery');
+    } else if (order.status === 'Out for Delivery') {
+      updateOrderStatus(orderId, 'Delivered');
+    } else if (order.status === 'Delivered') {
+      toast.info('Order is already Delivered!');
+    } else if (order.status === 'Cancelled') {
+      toast.info('Order is Cancelled.');
+    }
+  };
+
   // Retrieve an order by its ID
   const getOrderById = (orderId) => {
     if (!orderId) return null;
@@ -284,7 +807,6 @@ export const OrderProvider = ({ children }) => {
     const found = orders.find((o) => String(o.id) === cleanId);
     if (found) return found;
 
-    // Fallback search in localStorage
     try {
       const stored = localStorage.getItem('fdms_orders');
       if (stored) {
@@ -312,6 +834,9 @@ export const OrderProvider = ({ children }) => {
         calculateEstimatedDelivery,
         placeOrder,
         getOrderById,
+        updateOrderStatus,
+        cancelOrder,
+        simulateNextStatus,
       }}
     >
       {children}

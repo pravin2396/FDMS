@@ -142,11 +142,19 @@ const OrderConfirmation = () => {
               {/* Action Buttons Top Bar (Hidden on print) */}
               <div className="pt-2 flex flex-wrap items-center justify-center gap-3 print:hidden">
                 <Link
+                  to={`/track/${order.id}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/30 transition cursor-pointer"
+                >
+                  <Clock className="w-4 h-4" />
+                  <span>Live Order Tracking</span>
+                </Link>
+
+                <Link
                   to="/"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-bold text-xs border border-neutral-700 transition cursor-pointer shadow"
                 >
                   <LayoutDashboard className="w-4 h-4 text-red-400" />
-                  <span>View in Dashboard Orders</span>
+                  <span>Dashboard Orders</span>
                 </Link>
 
                 <button
@@ -160,7 +168,7 @@ const OrderConfirmation = () => {
 
                 <Link
                   to="/menu"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs transition cursor-pointer shadow-lg shadow-red-600/30"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white border border-neutral-700 font-bold text-xs transition cursor-pointer shadow"
                 >
                   <UtensilsCrossed className="w-4 h-4" />
                   <span>Order More Food</span>

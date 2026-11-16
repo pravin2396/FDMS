@@ -15,6 +15,8 @@ import FoodDetails from './pages/FoodDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
+import OrdersList from './pages/OrdersList';
+import OrderTracking from './pages/OrderTracking';
 
 function App() {
   return (
@@ -95,6 +97,24 @@ function App() {
           element={
             <ProtectedRoute>
               <OrderConfirmation />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 7: Order Tracking Protected Routes */}
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrdersList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/track/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderTracking />
             </ProtectedRoute>
           }
         />

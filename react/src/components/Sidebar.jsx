@@ -2,11 +2,13 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useOrder } from '../context/OrderContext';
 import {
   LayoutDashboard,
   Store,
   UtensilsCrossed,
   ShoppingBag,
+  Clock,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -21,8 +23,13 @@ const Sidebar = ({
 }) => {
   const { user, logout } = useAuth();
   const { totalItemsCount } = useCart();
+  const { orders } = useOrder();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const activeOrdersCount = orders?.filter(
+    (o) => o.status === 'Preparing' || o.status === 'Out for Delivery'
+  )?.length || 0;
 
   const handleLogout = () => {
     logout();
@@ -54,6 +61,14 @@ const Sidebar = ({
       icon: ShoppingBag,
       path: '/cart',
       badge: totalItemsCount > 0 ? totalItemsCount : null,
+    },
+    {
+      id: 'orders',
+      label: 'Track Orders',
+      icon: Clock,
+      path: '/orders',
+      badge: activeOrdersCount > 0 ? activeOrdersCount : null,
+      badgeColor: 'bg-amber-500',
     },
   ];
 
