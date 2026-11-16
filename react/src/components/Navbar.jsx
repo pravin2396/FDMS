@@ -73,20 +73,24 @@ const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
 
           {user && (
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Admin / User Pill */}
-              <div className="flex items-center gap-2.5 bg-neutral-800/90 px-3 py-1.5 rounded-full border border-neutral-700 shadow-sm">
+              {/* Customer Profile Pill Link */}
+              <Link
+                to="/profile"
+                className="flex items-center gap-2.5 bg-neutral-800/90 hover:bg-neutral-800 px-3 py-1.5 rounded-full border border-neutral-700 hover:border-red-500/50 transition cursor-pointer group shadow-sm"
+                title="View & Edit Customer Profile"
+              >
                 <img
                   src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
                   alt={user.name}
-                  className="w-7 h-7 rounded-full object-cover border border-red-500"
+                  className="w-7 h-7 rounded-full object-cover border border-red-500 group-hover:scale-105 transition"
                 />
                 <div className="text-left text-xs leading-none">
-                  <span className="font-semibold text-white block leading-tight">{user.name}</span>
+                  <span className="font-semibold text-white group-hover:text-red-400 transition block leading-tight">{user.name}</span>
                   <span className="text-neutral-400 text-[10px]">
                     @{user.username} • <span className="text-amber-400 font-semibold">{user.role}</span>
                   </span>
                 </div>
-              </div>
+              </Link>
 
               {/* Logout Button */}
               <button

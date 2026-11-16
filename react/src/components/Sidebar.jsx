@@ -9,6 +9,7 @@ import {
   UtensilsCrossed,
   ShoppingBag,
   Clock,
+  User,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -69,6 +70,12 @@ const Sidebar = ({
       path: '/orders',
       badge: activeOrdersCount > 0 ? activeOrdersCount : null,
       badgeColor: 'bg-amber-500',
+    },
+    {
+      id: 'profile',
+      label: 'Customer Profile',
+      icon: User,
+      path: '/profile',
     },
   ];
 
@@ -177,17 +184,21 @@ const Sidebar = ({
             {!isCollapsed ? (
               <div className="space-y-3">
                 {/* User Profile Badge */}
-                <div className="flex items-center gap-3 bg-neutral-900/90 p-2.5 rounded-xl border border-neutral-800">
+                <div
+                  onClick={() => navigate('/profile')}
+                  className="flex items-center gap-3 bg-neutral-900/90 hover:bg-neutral-800 p-2.5 rounded-xl border border-neutral-800 hover:border-neutral-700 transition cursor-pointer group"
+                  title="View & Edit Customer Profile"
+                >
                   <img
                     src={
                       user.avatar ||
                       'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
                     }
                     alt={user.name}
-                    className="w-9 h-9 rounded-full object-cover border border-red-500 shrink-0"
+                    className="w-9 h-9 rounded-full object-cover border border-red-500 shrink-0 group-hover:scale-105 transition"
                   />
                   <div className="text-left text-xs leading-none overflow-hidden">
-                    <span className="font-semibold text-white block truncate leading-tight">
+                    <span className="font-semibold text-white group-hover:text-red-400 transition block truncate leading-tight">
                       {user.name}
                     </span>
                     <span className="text-neutral-400 text-[10px] truncate block mt-0.5">

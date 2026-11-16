@@ -11,7 +11,7 @@ const DEFAULT_USERS = [
     username: 'pravin',
     email: 'pravin@foodcourt.com',
     password: 'Password123!',
-    role: 'Admin',
+    role: 'Customer',
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
   },
   {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       }
       keysToRemove.forEach((key) => localStorage.removeItem(key));
 
-      // 2. Ensure registered users exist and admin is Pravin
+      // 2. Ensure registered users exist and role is Customer
       const storedUsers = localStorage.getItem('fdms_users');
       if (!storedUsers) {
         localStorage.setItem('fdms_users', JSON.stringify(DEFAULT_USERS));
@@ -46,12 +46,13 @@ export const AuthProvider = ({ children }) => {
         try {
           const parsed = JSON.parse(storedUsers);
           const updated = parsed.map((u) =>
-            u.role === 'Admin' || u.id === 'user_1' || u.username === 'admin'
+            u.id === 'user_1' || u.username === 'pravin' || u.username === 'admin'
               ? {
                   ...u,
                   name: 'Pravin',
                   username: 'pravin',
                   email: 'pravin@foodcourt.com',
+                  role: 'Customer',
                 }
               : u
           );
@@ -64,15 +65,16 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      // 3. Ensure active session (if any) reflects Pravin for the admin role
+      // 3. Ensure active session reflects Pravin with Customer role
       const storedSession = localStorage.getItem('fdms_user_session');
       if (storedSession) {
         try {
           const sess = JSON.parse(storedSession);
-          if (sess.role === 'Admin' || sess.username === 'admin') {
+          if (sess.username === 'pravin' || sess.username === 'admin' || sess.id === 'user_1' || sess.role === 'Admin') {
             sess.name = 'Pravin';
             sess.username = 'pravin';
             sess.email = 'pravin@foodcourt.com';
+            sess.role = 'Customer';
             localStorage.setItem('fdms_user_session', JSON.stringify(sess));
             return sess;
           }
@@ -82,21 +84,21 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      // Pre-seed admin session so application opens directly without blank redirection
+      // Pre-seed session so application opens directly without blank redirection
       const hasLoggedOut = localStorage.getItem('fdms_logged_out');
       if (!hasLoggedOut) {
-        const defaultAdminSession = {
+        const defaultCustomerSession = {
           id: DEFAULT_USERS[0].id,
           name: 'Pravin',
           username: 'pravin',
           email: 'pravin@foodcourt.com',
-          role: 'Admin',
+          role: 'Customer',
           avatar: DEFAULT_USERS[0].avatar,
-          token: `mock_jwt_token_${Date.now()}_admin`,
+          token: `mock_jwt_token_${Date.now()}_customer`,
           loginAt: new Date().toISOString(),
         };
-        localStorage.setItem('fdms_user_session', JSON.stringify(defaultAdminSession));
-        return defaultAdminSession;
+        localStorage.setItem('fdms_user_session', JSON.stringify(defaultCustomerSession));
+        return defaultCustomerSession;
       }
       return null;
     } catch {
@@ -250,6 +252,54 @@ export const AuthProvider = ({ children }) => {
     return { success: true };
   };
 
+  // Update Profile action
+  const updateProfile = async (profileData) => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const updatedUser = {
+      ...user,
+      name: profileData.name !== undefined ? profileData.name.trim() : user.name,
+      email: profileData.email !== undefined ? profileData.email.trim() : user.email,
+      phone: profileData.phone !== undefined ? profileData.phone.trim() : (user.phone || '9876543210'),
+      avatar: profileData.avatar !== undefined ? profileData.avatar : user.avatar,
+      bio: profileData.bio !== undefined ? profileData.bio : (user.bio || 'Food enthusiast & regular diner'),
+      favoriteCuisine: profileData.favoriteCuisine !== undefined ? profileData.favoriteCuisine : (user.favoriteCuisine || 'South Indian & Italian'),
+      dietaryPreference: profileData.dietaryPreference !== undefined ? profileData.dietaryPreference : (user.dietaryPreference || 'Veg & Non-Veg'),
+      memberSince: user?.memberSince || 'November 2024',
+    };
+
+    setUser(updatedUser);
+    localStorage.setItem('fdms_user_session', JSON.stringify(updatedUser));
+
+    // Update in registered users list
+    try {
+      const users = getUsers();
+      const updatedUsers = users.map((u) => {
+        if (u.id === user?.id || u.username === user?.username) {
+          return {
+            ...u,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            avatar: updatedUser.avatar,
+            bio: updatedUser.bio,
+            favoriteCuisine: updatedUser.favoriteCuisine,
+            dietaryPreference: updatedUser.dietaryPreference,
+          };
+        }
+        return u;
+      });
+      localStorage.setItem('fdms_users', JSON.stringify(updatedUsers));
+    } catch (e) {
+      console.warn('Could not update registered users', e);
+    }
+
+    setLoading(false);
+    toast.success('Profile details updated successfully!');
+    return { success: true, user: updatedUser };
+  };
+
   // Logout action
   const logout = () => {
     setUser(null);
@@ -266,6 +316,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         forgotPassword,
+        updateProfile,
         logout,
         isAuthenticated: !!user,
       }}

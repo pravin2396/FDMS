@@ -17,6 +17,7 @@ import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import OrdersList from './pages/OrdersList';
 import OrderTracking from './pages/OrderTracking';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -115,6 +116,16 @@ function App() {
           element={
             <ProtectedRoute>
               <OrderTracking />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Module 8: Customer Profile Protected Route */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

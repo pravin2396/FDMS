@@ -524,6 +524,36 @@ export const OrderProvider = ({ children }) => {
     toast.info('Address removed');
   };
 
+  const updateAddress = (addressId, updatedFields) => {
+    setSavedAddresses((prev) => {
+      return prev.map((a) => {
+        if (a.id === addressId) {
+          return { ...a, ...updatedFields };
+        }
+        return a;
+      });
+    });
+
+    if (selectedAddress?.id === addressId) {
+      setSelectedAddress((prev) => ({ ...prev, ...updatedFields }));
+    }
+    toast.success('Address updated successfully!');
+  };
+
+  const setDefaultAddress = (addressId) => {
+    setSavedAddresses((prev) => {
+      const target = prev.find((a) => a.id === addressId);
+      if (target) {
+        setSelectedAddress(target);
+      }
+      return prev.map((a) => ({
+        ...a,
+        isDefault: a.id === addressId,
+      }));
+    });
+    toast.success('Default delivery address updated!');
+  };
+
   // Helper to generate dynamic estimated delivery time
   const calculateEstimatedDelivery = (items = []) => {
     const maxPrep = items.reduce((max, it) => {
@@ -830,7 +860,9 @@ export const OrderProvider = ({ children }) => {
         selectedAddress,
         setSelectedAddress,
         addAddress,
+        updateAddress,
         removeAddress,
+        setDefaultAddress,
         calculateEstimatedDelivery,
         placeOrder,
         getOrderById,
