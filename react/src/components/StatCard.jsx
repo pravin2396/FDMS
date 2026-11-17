@@ -56,19 +56,19 @@ const StatCard = ({
 
   const content = (
     <div
-      className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.bg} bg-neutral-900/90 border ${scheme.border} p-5 transition-all duration-300 hover:shadow-xl ${scheme.shadow} group h-full`}
+      className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${scheme.bg} bg-neutral-900/90 border ${scheme.border} p-3 sm:p-3.5 transition-all duration-300 hover:shadow-lg ${scheme.shadow} group h-full flex flex-col justify-between`}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0 pr-1">
-          <p className="text-xs font-medium text-neutral-400 uppercase tracking-wider truncate">
+          <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider truncate">
             {title}
           </p>
-          <div className="flex items-baseline gap-2 mt-2">
-            <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <div className="flex items-baseline gap-1.5 mt-1">
+            <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight truncate">
               {value}
             </h3>
             {badgeText && (
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700">
+              <span className="text-[9px] font-semibold px-1.5 py-0.2 rounded-full bg-neutral-800 text-neutral-300 border border-neutral-700">
                 {badgeText}
               </span>
             )}
@@ -77,29 +77,29 @@ const StatCard = ({
 
         {Icon && (
           <div
-            className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center ${scheme.iconBg} transition-transform group-hover:scale-110 shadow-sm`}
+            className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center ${scheme.iconBg} transition-transform group-hover:scale-110 shadow-sm`}
           >
-            <Icon className="w-5 h-5" />
+            <Icon className="w-4 h-4" />
           </div>
         )}
       </div>
 
-      <div className="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs">
+      <div className="mt-2 pt-1.5 border-t border-neutral-800/80 flex items-center justify-between text-[10px]">
         {change && (
           <div
-            className={`flex items-center gap-1 font-semibold ${
+            className={`flex items-center gap-1 font-semibold truncate ${
               isPositive ? 'text-emerald-400' : 'text-red-400'
             }`}
           >
             {isPositive ? (
-              <TrendingUp className="w-3.5 h-3.5" />
+              <TrendingUp className="w-3 h-3 shrink-0" />
             ) : (
-              <TrendingDown className="w-3.5 h-3.5" />
+              <TrendingDown className="w-3 h-3 shrink-0" />
             )}
-            <span>{change}</span>
+            <span className="truncate">{change}</span>
           </div>
         )}
-        {subtext && <span className="text-neutral-400 text-[11px] truncate">{subtext}</span>}
+        {subtext && <span className="text-neutral-400 text-[10px] truncate ml-1">{subtext}</span>}
       </div>
     </div>
   );

@@ -17,120 +17,108 @@ const RevenueSummary = ({ revenueData }) => {
   const maxRevenue = Math.max(...dataList.map((item) => item.revenue), 1);
 
   return (
-    <div className="rounded-2xl bg-neutral-900/90 border border-neutral-800 p-5 sm:p-6 shadow-xl space-y-6">
+    <div className="h-full flex flex-col justify-between rounded-xl bg-neutral-900/90 border border-neutral-800 p-3 sm:p-3.5 shadow-lg overflow-hidden">
       {/* Header and Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-red-600/20 text-red-500">
-              <CreditCard className="w-4 h-4" />
-            </span>
-            <h2 className="text-lg font-bold text-white tracking-tight">
+      <div className="flex items-center justify-between gap-2 shrink-0 pb-1.5 border-b border-neutral-800/80">
+        <div className="flex items-center gap-1.5">
+          <span className="p-1 rounded-md bg-red-600/20 text-red-500">
+            <CreditCard className="w-3.5 h-3.5" />
+          </span>
+          <div>
+            <h2 className="text-xs font-bold text-white tracking-tight">
               Revenue & Financial Summary
             </h2>
           </div>
-          <p className="text-neutral-400 text-xs mt-1">
-            Real-time sales, order volume, and payment trends across food court outlets.
-          </p>
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center bg-neutral-800/90 p-1 rounded-xl border border-neutral-700/80 self-start sm:self-auto text-xs">
+        <div className="flex items-center bg-neutral-800/90 p-0.5 rounded-lg border border-neutral-700/80 text-[10px]">
           <button
             onClick={() => setViewMode('weekly')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
+            className={`px-2 py-0.5 rounded-md font-medium transition cursor-pointer ${
               viewMode === 'weekly'
-                ? 'bg-red-600 text-white shadow-sm font-semibold'
+                ? 'bg-red-600 text-white font-semibold shadow-xs'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
-            Weekly Breakdown
+            Weekly
           </button>
           <button
             onClick={() => setViewMode('monthly')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition cursor-pointer ${
+            className={`px-2 py-0.5 rounded-md font-medium transition cursor-pointer ${
               viewMode === 'monthly'
-                ? 'bg-red-600 text-white shadow-sm font-semibold'
+                ? 'bg-red-600 text-white font-semibold shadow-xs'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
-            Monthly Overview
+            Monthly
           </button>
         </div>
       </div>
 
       {/* Top Quick Revenue Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+      <div className="grid grid-cols-3 gap-2 shrink-0 py-1.5">
+        <div className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-800/80">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-              Total Gross Revenue
+            <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-wider truncate">
+              Gross Revenue
             </span>
-            <span className="flex items-center text-xs font-semibold text-emerald-400 gap-0.5">
-              <TrendingUp className="w-3.5 h-3.5" /> +14.8%
+            <span className="flex items-center text-[9px] font-semibold text-emerald-400">
+              <TrendingUp className="w-2.5 h-2.5 mr-0.5" /> +14.8%
             </span>
           </div>
-          <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-xl sm:text-2xl font-extrabold text-white">
+          <div className="flex items-baseline gap-1 mt-0.5">
+            <span className="text-sm sm:text-base font-extrabold text-white">
               ₹{(revenueData?.totalRevenue || 485200).toLocaleString('en-IN')}
             </span>
           </div>
-          <p className="text-[11px] text-neutral-400 mt-1">
-            Net revenue processed this financial quarter
-          </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+        <div className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-800/80">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-              Today's Revenue
+            <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-wider truncate">
+              Today's Sales
             </span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-semibold">
-              Peak Hours Active
+            <span className="text-[8px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-400 font-bold">
+              PEAK
             </span>
           </div>
-          <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-xl sm:text-2xl font-extrabold text-amber-400">
+          <div className="flex items-baseline gap-1 mt-0.5">
+            <span className="text-sm sm:text-base font-extrabold text-amber-400">
               ₹{(revenueData?.todayRevenue || 28450).toLocaleString('en-IN')}
             </span>
           </div>
-          <p className="text-[11px] text-neutral-400 mt-1">
-            Across 94 transactions completed today
-          </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+        <div className="p-2 rounded-lg bg-neutral-950/60 border border-neutral-800/80">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-              Average Order Value (AOV)
+            <span className="text-[9px] font-semibold text-neutral-400 uppercase tracking-wider truncate">
+              Avg Order (AOV)
             </span>
-            <span className="flex items-center text-xs font-semibold text-emerald-400 gap-0.5">
-              <ArrowUpRight className="w-3.5 h-3.5" /> +₹35
+            <span className="flex items-center text-[9px] font-semibold text-emerald-400">
+              <ArrowUpRight className="w-2.5 h-2.5 mr-0.5" /> +₹35
             </span>
           </div>
-          <div className="flex items-baseline gap-1 mt-2">
-            <span className="text-xl sm:text-2xl font-extrabold text-white">
+          <div className="flex items-baseline gap-1 mt-0.5">
+            <span className="text-sm sm:text-base font-extrabold text-white">
               ₹{revenueData?.averageOrderValue || 340}
             </span>
           </div>
-          <p className="text-[11px] text-neutral-400 mt-1">
-            Standard customer basket spend
-          </p>
         </div>
       </div>
 
       {/* Visual Chart / Bar Graph */}
-      <div className="pt-2">
-        <div className="flex items-center justify-between mb-3 text-xs">
-          <span className="text-neutral-300 font-medium flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 text-red-500" />
-            {viewMode === 'weekly' ? 'Daily Revenue Velocity (Mon - Sun)' : 'Monthly Sales Trajectory'}
+      <div className="flex-1 min-h-0 flex flex-col justify-end pt-1">
+        <div className="flex items-center justify-between mb-1.5 text-[10px] shrink-0">
+          <span className="text-neutral-300 font-medium flex items-center gap-1 truncate">
+            <Calendar className="w-3 h-3 text-red-500 shrink-0" />
+            {viewMode === 'weekly' ? 'Daily Revenue Velocity' : 'Monthly Sales Trajectory'}
           </span>
-          <span className="text-neutral-400 text-[11px]">Hover over bars to inspect details</span>
+          <span className="text-neutral-400 text-[9px] hidden sm:inline">Hover bars for details</span>
         </div>
 
         {/* Bar Graph Container */}
-        <div className="h-52 w-full flex items-end gap-2 sm:gap-4 pt-6 pb-2 px-2 rounded-xl bg-neutral-950/80 border border-neutral-800/80">
+        <div className="h-28 sm:h-32 w-full flex items-end gap-1.5 sm:gap-2.5 pt-4 pb-1.5 px-2 rounded-lg bg-neutral-950/80 border border-neutral-800/80">
           {dataList.map((item, index) => {
             const heightPercent = Math.round((item.revenue / maxRevenue) * 100);
             const label = item.day || item.month;
@@ -138,24 +126,24 @@ const RevenueSummary = ({ revenueData }) => {
             return (
               <div
                 key={index}
-                className="flex-1 h-full flex flex-col justify-end items-center gap-2 group relative cursor-pointer"
+                className="flex-1 h-full flex flex-col justify-end items-center gap-1 group relative cursor-pointer"
               >
                 {/* Floating Tooltip */}
-                <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none bg-neutral-900 border border-neutral-700 text-white text-[11px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-20">
+                <div className="absolute -top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none bg-neutral-900 border border-neutral-700 text-white text-[10px] px-1.5 py-0.5 rounded shadow-lg whitespace-nowrap z-20">
                   <span className="font-semibold text-amber-400">₹{item.revenue.toLocaleString('en-IN')}</span>
-                  <span className="text-neutral-400 block text-[9px]">{item.orders} orders</span>
+                  <span className="text-neutral-400 block text-[8px]">{item.orders} orders</span>
                 </div>
 
                 {/* Vertical Bar */}
-                <div className="w-full max-w-[40px] bg-neutral-800 rounded-t-md overflow-hidden relative flex flex-col justify-end h-full">
+                <div className="w-full max-w-[28px] bg-neutral-800/90 rounded-t-sm overflow-hidden relative flex flex-col justify-end h-full">
                   <div
                     style={{ height: `${heightPercent}%` }}
-                    className="w-full bg-gradient-to-t from-red-700 via-red-500 to-amber-500 rounded-t-md transition-all duration-500 group-hover:brightness-125"
+                    className="w-full bg-gradient-to-t from-red-700 via-red-500 to-amber-500 rounded-t-sm transition-all duration-300 group-hover:brightness-125"
                   />
                 </div>
 
                 {/* Day / Month Label */}
-                <span className="text-[11px] text-neutral-400 font-medium group-hover:text-white transition-colors">
+                <span className="text-[10px] text-neutral-400 font-medium group-hover:text-white transition-colors truncate">
                   {label}
                 </span>
               </div>

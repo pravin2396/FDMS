@@ -2,9 +2,33 @@
 @import "tailwindcss";
 
 @layer base {
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
   body {
     font-family: 'Montserrat', sans-serif;
   }
+}
+
+/* Custom sleek scrollbar for internal containers */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(23, 23, 23, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(82, 82, 82, 0.5);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 38, 38, 0.7);
 }
 
 .food-court-title {

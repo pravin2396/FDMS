@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { LogOut, Utensils, Menu, X, ShoppingBag } from 'lucide-react';
@@ -8,6 +8,19 @@ const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
   const { user, logout } = useAuth();
   const { totalItemsCount, subtotal } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Determine if current route is part of Customer Portal or Admin Portal
+  const isCustomerPortal = [
+    '/profile',
+    '/orders',
+    '/order-history',
+    '/track',
+    '/cart',
+    '/checkout',
+    '/order-confirmation',
+    '/payment',
+  ].some((prefix) => location.pathname.startsWith(prefix));
 
   const handleLogout = () => {
     logout();
@@ -73,22 +86,36 @@ const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
 
           {user && (
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Customer Profile Pill Link */}
+              {/* Profile Badge Link: Admin Profile Badge in Admin Portal, Customer Profile Badge in Customer Portal */}
               <Link
                 to="/profile"
-                className="flex items-center gap-2.5 bg-neutral-800/90 hover:bg-neutral-800 px-3 py-1.5 rounded-full border border-neutral-700 hover:border-red-500/50 transition cursor-pointer group shadow-sm"
-                title="View & Edit Customer Profile"
+                className="flex items-center gap-2 sm:gap-2.5 bg-neutral-800/90 hover:bg-neutral-800 px-3 py-1.5 rounded-full border border-neutral-700 hover:border-red-500/50 transition cursor-pointer group shadow-sm"
+                title={isCustomerPortal ? "View & Edit Customer Profile" : "Admin Profile Badge"}
               >
                 <img
                   src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
                   alt={user.name}
-                  className="w-7 h-7 rounded-full object-cover border border-red-500 group-hover:scale-105 transition"
+                  className={`w-7 h-7 rounded-full object-cover border group-hover:scale-105 transition ${
+                    isCustomerPortal ? 'border-emerald-500' : 'border-red-500'
+                  }`}
                 />
                 <div className="text-left text-xs leading-none">
-                  <span className="font-semibold text-white group-hover:text-red-400 transition block leading-tight">{user.name}</span>
-                  <span className="text-neutral-400 text-[10px]">
-                    @{user.username} • <span className="text-amber-400 font-semibold">{user.role}</span>
+                  <span className="font-semibold text-white group-hover:text-red-400 transition block leading-tight">
+                    {user.name}
                   </span>
+                  <div className="flex items-center gap-1 mt-0.5">
+                    <span className="text-neutral-400 text-[10px]">@{user.username}</span>
+                    <span className="text-neutral-500 text-[10px]">•</span>
+                    {isCustomerPortal ? (
+                      <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/40 uppercase tracking-wide">
+                        Customer
+                      </span>
+                    ) : (
+                      <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-red-950 text-red-400 border border-red-500/40 uppercase tracking-wide">
+                        Admin
+                      </span>
+                    )}
+                  </div>
                 </div>
               </Link>
 
