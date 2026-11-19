@@ -2,23 +2,15 @@
 @import "tailwindcss";
 
 @layer base {
-  html, body, #root {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
   body {
     font-family: 'Montserrat', sans-serif;
   }
 }
 
-/* Custom sleek scrollbar for internal containers */
+/* Custom sleek scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: rgba(23, 23, 23, 0.4);

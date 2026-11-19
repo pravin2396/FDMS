@@ -88,16 +88,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-screen max-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full overflow-hidden">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
       {/* Top Header - Edge to Edge with logo, title, admin pill, and logout */}
       <Navbar
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={handleToggleSidebar}
       />
 
-      {/* Main Edge-to-Edge Stretched Layout with Sidebar */}
-      <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
-        {/* Responsive Collapsible Sidebar */}
+      {/* Main Edge-to-Edge Stretched Layout with Sticky Sidebar */}
+      <div className="flex-1 flex w-full relative">
+        {/* Responsive Collapsible Sticky Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
           isCollapsed={isSidebarCollapsed}
@@ -109,22 +109,21 @@ const Dashboard = () => {
           }}
         />
 
-        {/* Edge-to-Edge Single-Screen Main Content Area */}
-        <main className="flex-1 min-h-0 h-full p-2.5 sm:p-3.5 flex flex-col gap-2.5 bg-neutral-950 overflow-hidden">
+        {/* Scrollable Main Content Area */}
+        <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8 space-y-8 bg-neutral-950">
           {/* Dashboard Header Title Bar */}
-          <div className="flex items-center justify-between gap-3 pb-1 border-b border-neutral-800/80 shrink-0">
-            <div className="flex items-center gap-3">
-              <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-neutral-800/80">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                 Food Court Overview
               </h1>
-              <span className="hidden sm:inline-block text-neutral-600 text-xs">•</span>
-              <p className="hidden sm:block text-neutral-400 text-xs truncate">
-                Real-time multi-restaurant operations, orders dispatch, customer volume, and sales metrics
+              <p className="text-neutral-400 text-xs sm:text-sm mt-1">
+                Real-time multi-restaurant operations, orders dispatch, customer volume, and sales metrics.
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 System Live
               </span>
             </div>
@@ -132,24 +131,27 @@ const Dashboard = () => {
 
           {/* API Error Alert if present */}
           {apiError && (
-            <div className="p-2 rounded-lg bg-amber-950/40 border border-amber-800/80 flex items-center justify-between gap-2 text-[11px] text-amber-300 shrink-0">
-              <div className="flex items-center gap-1.5">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+            <div className="p-4 rounded-xl bg-amber-950/40 border border-amber-800/80 flex items-center justify-between gap-3 text-xs text-amber-300">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
                 <span>{apiError} — Displaying cached local metrics.</span>
               </div>
             </div>
           )}
 
-          {/* 1. Six Core Metric Cards in Single Row Grid */}
-          <section className="shrink-0">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-2">
+          {/* 1. Six Core Metric Cards Required */}
+          <section className="space-y-3">
+            <h2 className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+              Key Performance Metrics
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
               {/* Metric 1: Total Restaurants */}
               <StatCard
                 title="Total Restaurants"
                 value={metrics.totalRestaurants}
                 change="+4 partners"
                 isPositive={true}
-                subtext="Active outlets"
+                subtext="Active food outlets"
                 icon={Store}
                 accentColor="red"
                 linkTo="/restaurants"
@@ -213,28 +215,27 @@ const Dashboard = () => {
             </div>
           </section>
 
-          {/* 2. Lower Split Grid: Left (Quick Actions + Revenue Summary) | Right (Recent Orders Table) */}
-          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 overflow-hidden">
-            {/* Left 7 Columns: Quick Actions + Revenue Summary */}
-            <div className="lg:col-span-7 flex flex-col gap-2 h-full min-h-0 overflow-hidden">
-              <QuickActionCards
-                onOpenAddRestaurant={() => setIsRestaurantModalOpen(true)}
-                onOpenAddFoodItem={() => setIsFoodModalOpen(true)}
-                onSimulateOrder={handleSimulateOrder}
-              />
-              <div className="flex-1 min-h-0 overflow-hidden">
-                <RevenueSummary revenueData={revenueData} />
-              </div>
-            </div>
+          {/* 2. Quick Action Cards */}
+          <section>
+            <QuickActionCards
+              onOpenAddRestaurant={() => setIsRestaurantModalOpen(true)}
+              onOpenAddFoodItem={() => setIsFoodModalOpen(true)}
+              onSimulateOrder={handleSimulateOrder}
+            />
+          </section>
 
-            {/* Right 5 Columns: Recent Orders Table */}
-            <div className="lg:col-span-5 h-full min-h-0 overflow-hidden">
-              <RecentOrdersTable
-                orders={recentOrders}
-                onUpdateStatus={updateOrderStatus}
-              />
-            </div>
-          </div>
+          {/* 3. Revenue Summary (Dummy Data with Breakdown Bars & Key Stats) */}
+          <section>
+            <RevenueSummary revenueData={revenueData} />
+          </section>
+
+          {/* 4. Recent Orders Feed Table */}
+          <section>
+            <RecentOrdersTable
+              orders={recentOrders}
+              onUpdateStatus={updateOrderStatus}
+            />
+          </section>
         </main>
       </div>
 

@@ -212,12 +212,12 @@ const Payment = () => {
   // Empty cart guard view
   if (cartItems.length === 0 && paymentScreen !== 'success') {
     return (
-      <div className="h-screen max-h-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
+      <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
         <Navbar
           isSidebarOpen={isSidebarOpen}
           onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         />
-        <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
+        <div className="flex-1 flex w-full relative">
           <Sidebar
             isOpen={isSidebarOpen}
             isCollapsed={isSidebarCollapsed}
@@ -225,7 +225,7 @@ const Payment = () => {
             activeTab="cart"
             onSelectTab={() => setIsSidebarOpen(false)}
           />
-          <main className="flex-1 min-h-0 p-8 flex items-center justify-center bg-neutral-950">
+          <main className="flex-1 w-full min-w-0 p-8 flex items-center justify-center bg-neutral-950">
             <div className="max-w-md w-full p-8 rounded-3xl bg-neutral-900 border border-neutral-800 text-center space-y-4 shadow-2xl">
               <div className="w-16 h-16 rounded-2xl bg-red-950/40 text-red-500 border border-red-500/30 flex items-center justify-center mx-auto">
                 <Receipt className="w-8 h-8" />
@@ -251,7 +251,7 @@ const Payment = () => {
   }
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
       {/* Top Navbar */}
       <Navbar
         isSidebarOpen={isSidebarOpen}
@@ -259,7 +259,7 @@ const Payment = () => {
       />
 
       {/* Main Layout */}
-      <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
+      <div className="flex-1 flex w-full relative">
         {/* Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
@@ -270,7 +270,7 @@ const Payment = () => {
         />
 
         {/* Content Area */}
-        <main className="flex-1 min-h-0 overflow-y-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950">
+        <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950">
           {/* SCREEN 1: PAYMENT SUCCESS SCREEN */}
           {paymentScreen === 'success' && (
             <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in zoom-in-95">

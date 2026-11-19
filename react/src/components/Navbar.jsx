@@ -10,17 +10,8 @@ const Navbar = ({ isSidebarOpen, onToggleSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Determine if current route is part of Customer Portal or Admin Portal
-  const isCustomerPortal = [
-    '/profile',
-    '/orders',
-    '/order-history',
-    '/track',
-    '/cart',
-    '/checkout',
-    '/order-confirmation',
-    '/payment',
-  ].some((prefix) => location.pathname.startsWith(prefix));
+  // Determine if current route is part of Customer Portal (all customer-facing routes) or Admin Portal (Dashboard /)
+  const isCustomerPortal = location.pathname !== '/';
 
   const handleLogout = () => {
     logout();

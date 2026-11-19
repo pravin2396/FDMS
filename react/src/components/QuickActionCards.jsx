@@ -80,44 +80,52 @@ const QuickActionCards = ({
   };
 
   return (
-    <div className="space-y-1.5 shrink-0">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <span className="p-1 rounded-md bg-amber-500/20 text-amber-400">
-            <Zap className="w-3.5 h-3.5" />
-          </span>
-          <h2 className="text-xs font-bold text-neutral-300 uppercase tracking-wider">
-            Quick Management Actions
-          </h2>
-        </div>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+          <Zap className="w-4 h-4" />
+        </span>
+        <h2 className="text-lg font-bold text-white tracking-tight">
+          Quick Management Actions
+        </h2>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {actions.map((act) => {
           const Icon = act.icon;
           const styles = colorStyles[act.accent] || colorStyles.red;
 
           return (
-            <button
+            <div
               key={act.id}
-              onClick={act.onClick}
-              type="button"
-              className={`rounded-xl bg-neutral-900/90 border ${styles.border} p-2.5 flex items-center gap-2.5 transition-all duration-200 hover:shadow-md group text-left cursor-pointer`}
+              className={`rounded-2xl bg-neutral-900/90 border ${styles.border} p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl group`}
             >
-              <div
-                className={`w-8 h-8 shrink-0 rounded-lg flex items-center justify-center ${styles.iconBg} transition-transform group-hover:scale-105`}
-              >
-                <Icon className="w-4 h-4" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-xs font-bold text-white group-hover:text-red-400 transition-colors truncate">
-                  {act.buttonText}
-                </h3>
-                <p className="text-neutral-400 text-[10px] truncate leading-tight mt-0.5">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center ${styles.iconBg} transition-transform group-hover:scale-110`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </div>
+                </div>
+                <h3 className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">
                   {act.title}
+                </h3>
+                <p className="text-neutral-400 text-xs mt-1.5 leading-relaxed">
+                  {act.description}
                 </p>
               </div>
-            </button>
+
+              <div className="pt-4 mt-3 border-t border-neutral-800">
+                <button
+                  onClick={act.onClick}
+                  className={`w-full py-2 px-3 rounded-xl text-xs font-semibold tracking-wide transition shadow cursor-pointer flex items-center justify-center gap-1.5 ${styles.btn}`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{act.buttonText}</span>
+                </button>
+              </div>
+            </div>
           );
         })}
       </div>

@@ -46,7 +46,7 @@ const Register = () => {
 
   return (
     <div
-      className="relative h-screen max-h-screen overflow-hidden w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-sans selection:bg-red-500 selection:text-white"
+      className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-sans selection:bg-red-500 selection:text-white"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/dining-table.jpg')`,
       }}

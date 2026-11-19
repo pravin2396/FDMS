@@ -32,17 +32,8 @@ const Sidebar = ({
     (o) => o.status === 'Preparing' || o.status === 'Out for Delivery'
   )?.length || 0;
 
-  // Determine if current route is part of Customer Portal or Admin Portal
-  const isCustomerPortal = [
-    '/profile',
-    '/orders',
-    '/order-history',
-    '/track',
-    '/cart',
-    '/checkout',
-    '/order-confirmation',
-    '/payment',
-  ].some((prefix) => location.pathname.startsWith(prefix));
+  // Determine if current route is part of Customer Portal (all customer-facing routes) or Admin Portal (Dashboard /)
+  const isCustomerPortal = location.pathname !== '/';
 
   const handleLogout = () => {
     logout();
@@ -108,9 +99,9 @@ const Sidebar = ({
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container - Sticky on desktop */}
       <aside
-        className={`fixed lg:static top-16 bottom-0 left-0 z-30 flex flex-col bg-neutral-900 border-r border-neutral-800 transition-all duration-300 select-none ${
+        className={`fixed lg:sticky top-16 z-30 flex flex-col bg-neutral-900 border-r border-neutral-800 transition-all duration-300 select-none h-[calc(100vh-4rem)] shrink-0 self-start ${
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } ${isCollapsed ? 'w-20' : 'w-64'}`}
       >

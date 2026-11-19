@@ -167,7 +167,7 @@ const OrderTracking = () => {
   const currentStepIndex = getStepProgressIndex();
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
       {/* Top Navbar */}
       <Navbar
         isSidebarOpen={isSidebarOpen}
@@ -175,7 +175,7 @@ const OrderTracking = () => {
       />
 
       {/* Main Layout */}
-      <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
+      <div className="flex-1 flex w-full relative">
         {/* Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
@@ -186,7 +186,7 @@ const OrderTracking = () => {
         />
 
         {/* Content Area */}
-        <main className="flex-1 min-h-0 overflow-y-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950">
+        <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950">
           {/* Top Breadcrumb & Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
             <div>

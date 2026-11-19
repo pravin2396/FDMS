@@ -47,12 +47,12 @@ const OrderConfirmation = () => {
 
   if (!order) {
     return (
-      <div className="h-screen max-h-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
+      <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full">
         <Navbar
           isSidebarOpen={isSidebarOpen}
           onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         />
-        <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
+        <div className="flex-1 flex w-full relative">
           <Sidebar
             isOpen={isSidebarOpen}
             isCollapsed={isSidebarCollapsed}
@@ -60,7 +60,7 @@ const OrderConfirmation = () => {
             activeTab="cart"
             onSelectTab={() => setIsSidebarOpen(false)}
           />
-          <main className="flex-1 min-h-0 p-8 flex items-center justify-center">
+          <main className="flex-1 w-full min-w-0 p-8 flex items-center justify-center">
             <div className="max-w-md w-full p-8 rounded-3xl bg-neutral-900 border border-neutral-800 text-center space-y-4">
               <h2 className="text-xl font-bold text-white">Order Not Found</h2>
               <p className="text-xs text-neutral-400">
@@ -80,7 +80,7 @@ const OrderConfirmation = () => {
   }
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full print:bg-white print:text-black">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans w-full print:bg-white print:text-black">
       {/* Top Navbar (Hidden on print) */}
       <div className="print:hidden">
         <Navbar
@@ -90,7 +90,7 @@ const OrderConfirmation = () => {
       </div>
 
       {/* Main Layout */}
-      <div className="flex-1 min-h-0 flex w-full relative overflow-hidden">
+      <div className="flex-1 flex w-full relative">
         {/* Sidebar (Hidden on print) */}
         <div className="print:hidden">
           <Sidebar
@@ -103,7 +103,7 @@ const OrderConfirmation = () => {
         </div>
 
         {/* Content Area */}
-        <main className="flex-1 min-h-0 overflow-y-auto w-full p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950 print:p-0 print:bg-white">
+        <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8 space-y-6 bg-neutral-950 print:p-0 print:bg-white">
           {/* Success Banner Hero */}
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-neutral-900 to-neutral-950 border border-neutral-800 relative overflow-hidden shadow-2xl text-center space-y-4 print:border-neutral-300">
